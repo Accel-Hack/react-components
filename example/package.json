@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --dist-dir docs --public-url ."
+    "build:page": "parcel build src/index.html --dist-dir ../docs --public-url ."
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
