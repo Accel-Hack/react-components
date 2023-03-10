@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "parcel src/index.html"
+    "start": "parcel src/index.html",
+    "build:page": "parcel build src/index.html --dist-dir ../docs --public-url ."
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
