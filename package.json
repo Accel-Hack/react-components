@@ -1,6 +1,6 @@
 {
   "name": "ah-react-components",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -19,7 +19,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gapon2401/my-react-typescript-package.git"
+    "url": "git+https://github.com/Accel-Hack/react-components.git"
   },
   "keywords": [
     "react",
