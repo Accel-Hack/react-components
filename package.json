@@ -16,7 +16,7 @@
     "test": "jest --config jestconfig.json"
   },
   "author": "KKyosuke",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Accel-Hack/react-components.git"
