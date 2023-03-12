@@ -1,5 +1,5 @@
-import React from "react";
-import {Sort} from "./Table";
+import React from 'react'
+import { Sort } from './Table'
 
 interface IRow {
   [name: string]: React.ReactNode
@@ -36,6 +36,7 @@ interface IDisplay {
   readonly limit: number
   readonly page: number
   readonly sort: Sort[]
+  readonly options: any
 }
 
-export {IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableTrigger}
+export { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableTrigger }

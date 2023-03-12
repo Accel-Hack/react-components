@@ -1,4 +1,4 @@
-import {FilterType} from "./Enums";
+import { FilterType } from './Enums'
 
 interface ICFilterDelegate {
   clear: () => void
@@ -12,4 +12,4 @@ interface ICFilter<T> {
   delegate?: ICFilterDelegate
 }
 
-export {ICFilterDelegate, ICFilter}
+export { ICFilterDelegate, ICFilter }
