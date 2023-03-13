@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { FilterTable, FilterType, MyCounter, Sort } from 'ah-react-components'
+import {FilterType} from "./components/filter/Enums";
+import {Sort} from "./components/table/Table";
+import {FilterTable} from "./components/filtertable/FilterTable";
+import {MyCounter} from "ah-react-components";
 
 const filters = [
   {
@@ -13,16 +16,16 @@ const filters = [
     name: '大文字・小文字',
     field: 'font',
     options: [
-      { caption: 'ABC', value: 'upper' },
-      { caption: 'abc', value: 'lower' },
+      {caption: 'ABC', value: 'upper'},
+      {caption: 'abc', value: 'lower'},
     ],
   },
 ]
 
 const columns = [
-  { field: 'id', children: 'ID', sortable: true },
-  { field: 'name', children: '名前', sortable: true },
-  { field: 'desc', children: '説明' },
+  {field: 'id', children: 'ID', sortable: true},
+  {field: 'name', children: '名前', sortable: true},
+  {field: 'desc', children: '説明'},
 ]
 
 const getRows = async (limit: number, offset: number, sort: Sort[], options?: any[]) => {
@@ -32,9 +35,9 @@ const getRows = async (limit: number, offset: number, sort: Sort[], options?: an
   return {
     total: 10,
     rows: [
-      { id: 1, name: 'aa', desc: 'desc1' },
-      { id: 2, name: 'aa', desc: 'desc1' },
-      { id: 3, name: 'aa', desc: 'desc1' },
+      {id: 1, name: 'aa', desc: 'desc1'},
+      {id: 2, name: 'aa', desc: 'desc1'},
+      {id: 3, name: 'aa', desc: 'desc1'},
     ],
   }
 }
@@ -42,15 +45,15 @@ const getRows = async (limit: number, offset: number, sort: Sort[], options?: an
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <FilterTable filters={filters} columns={columns} delegate={{ getRows }} />
+    <FilterTable filters={filters} columns={columns} delegate={{getRows}}/>
     <div>
       <h2>Default counter</h2>
-      <MyCounter />
+      <MyCounter/>
     </div>
-    <hr />
+    <hr/>
     <div>
       <h2>Counter with predefined value</h2>
-      <MyCounter value={5} />
+      <MyCounter value={5}/>
     </div>
   </React.StrictMode>,
 )
