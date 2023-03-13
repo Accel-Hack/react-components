@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { FilterTable, FilterType, Sort, TableFunctions } from 'ah-react-components'
+import { ARFilterTable, ARFilterType, ARSort, ARTableFunctions } from 'ah-react-components'
 
 const filters = [
   {
-    type: FilterType.TEXT,
+    type: ARFilterType.TEXT,
     name: '検索ワード',
     field: 'word',
   },
   {
-    type: FilterType.TOGGLE,
+    type: ARFilterType.TOGGLE,
     name: '大文字・小文字',
     field: 'font',
     options: [
@@ -29,7 +29,7 @@ const options = {
   selectable: { enabled: true, identifier: 'id' },
 }
 
-const getRows = async (limit: number, offset: number, sort: Sort[], options?: any[]) => {
+const getRows = async (limit: number, offset: number, sort: ARSort[], options?: any[]) => {
   console.log(
     `getRows(limit: ${limit}, offset: ${offset}, sort: ${JSON.stringify(sort)}, options: ${JSON.stringify(options)})`,
   )
@@ -43,7 +43,7 @@ const getRows = async (limit: number, offset: number, sort: Sort[], options?: an
   }
 }
 
-const func: TableFunctions = {
+const func: ARTableFunctions = {
   delegate: {
     getRows,
     onRowClick: (row: any) => {
@@ -54,27 +54,28 @@ const func: TableFunctions = {
     },
   },
 }
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <h2>Sample Table</h2>
     <div>
-      <FilterTable filters={filters} columns={columns} func={func} options={options} />
-      <button
-        onClick={() => {
-          console.log('get Rows', func.dispatch?.getRows())
-        }}
-      >
-        get Rows
-      </button>
-      <button
-        onClick={() => {
-          console.log('get selected rows', func.dispatch?.getSelectedRows?.())
-        }}
-      >
-        get selected rows
-      </button>
+      <h2>Sample Table With Filter</h2>
+      <div>
+        <ARFilterTable filters={filters} columns={columns} func={func} options={options} />
+        <button
+          onClick={() => {
+            console.log('get Rows', func.dispatch?.getRows())
+          }}
+        >
+          get Rows
+        </button>
+        <button
+          onClick={() => {
+            console.log('get selected rows', func.dispatch?.getSelectedRows?.())
+          }}
+        >
+          get selected rows
+        </button>
+      </div>
     </div>
   </React.StrictMode>,
 )

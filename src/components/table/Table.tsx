@@ -23,7 +23,7 @@ const Table: React.FC<ITable> = ({ columns, options, func }) => {
   const pagingTo = (_displayPage: number) => {
     if (_displayPage <= 0 || _displayPage > lastPage()) throw new DOMException()
     setDisplay((prev) => {
-      return { ...prev, _page: _displayPage }
+      return { ...prev, page: _displayPage }
     })
   }
 
@@ -42,7 +42,7 @@ const Table: React.FC<ITable> = ({ columns, options, func }) => {
 
   const onChangeLimit = (_event: ChangeEvent<HTMLSelectElement>) =>
     setDisplay((prev) => {
-      return { ...prev, _limit: Number(_event.target.value), _page: 1 }
+      return { ...prev, limit: Number(_event.target.value), page: 1 }
     })
 
   useEffect(() => {
