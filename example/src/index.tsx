@@ -1,7 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { MyCounter } from 'ah-react-components'
-
+// import React from 'react'
+// import ReactDOM from 'react-dom/client'
+// import { FilterType } from '../../src/components/filter/Enums'
+// import { Sort } from '../../src/components/table/Table'
+// import { FilterTable, TableFunctions } from '../../src/components/filtertable/FilterTable'
+// import MyCounter from '../../src/components/App'
+//
 // const filters = [
 //   {
 //     type: FilterType.TEXT,
@@ -25,6 +28,10 @@ import { MyCounter } from 'ah-react-components'
 //   { field: 'desc', children: '説明' },
 // ]
 //
+// const options = {
+//   selectable: { enabled: true, identifier: 'id' },
+// }
+//
 // const getRows = async (limit: number, offset: number, sort: Sort[], options?: any[]) => {
 //   console.log(
 //     `getRows(limit: ${limit}, offset: ${offset}, sort: ${JSON.stringify(sort)}, options: ${JSON.stringify(options)})`,
@@ -38,19 +45,45 @@ import { MyCounter } from 'ah-react-components'
 //     ],
 //   }
 // }
-
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-root.render(
-  <React.StrictMode>
-    {/*<FilterTable filters={filters} columns={columns} delegate={{ getRows }} />*/}
-    <div>
-      <h2>Default counter</h2>
-      <MyCounter />
-    </div>
-    <hr />
-    <div>
-      <h2>Counter with predefined value</h2>
-      <MyCounter value={5} />
-    </div>
-  </React.StrictMode>,
-)
+//
+// const func: TableFunctions = {
+//   delegate: {
+//     getRows,
+//     onRowClick: (row: any) => {
+//       console.log('onRowClick', row)
+//     },
+//     onDataLoaded: () => {
+//       console.log('onDataLoaded')
+//     },
+//   },
+// }
+//
+// const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+// root.render(
+//   <React.StrictMode>
+//     <FilterTable filters={filters} columns={columns} func={func} options={options} />
+//     <button
+//       onClick={() => {
+//         console.log('get Rows', func.dispatch?.getRows())
+//       }}
+//     >
+//       get Rows
+//     </button>
+//     <button
+//       onClick={() => {
+//         console.log('get selected rows', func.dispatch?.getSelectedRows?.())
+//       }}
+//     >
+//       get selected rows
+//     </button>
+//     <div>
+//       <h2>Default counter</h2>
+//       <MyCounter />
+//     </div>
+//     <hr />
+//     <div>
+//       <h2>Counter with predefined value</h2>
+//       <MyCounter value={5} />
+//     </div>
+//   </React.StrictMode>,
+// )

@@ -12,18 +12,32 @@ interface IRowResult {
 
 interface ITable {
   readonly limit?: number
-  delegate?: ITableDelegate
-  onRowClick?: (row: IRow) => void
-  onDataLoaded?: () => void
   readonly columns: IColumn[]
+  func: TableFunctions
+}
+
+interface TableFunctions {
+  delegate: ITableDelegate
+  dispatch?: ITableDispatch
+}
+
+interface ITableOptions {
+  selectable?: {
+    enabled: boolean
+    identifier: string
+  }
 }
 
 interface ITableDelegate {
   getRows: (limit: number, offset: number, sort: Sort[], options?: any) => Promise<IRowResult>
+  onRowClick?: (row: IRow) => void
+  onDataLoaded?: () => void
 }
 
-interface ITableTrigger {
-  search?: (option?: any[]) => void
+interface ITableDispatch {
+  search: (option?: any[]) => void
+  getRows: () => IRow[]
+  getSelectedRows: () => IRow[]
 }
 
 interface IColumn {
@@ -36,7 +50,9 @@ interface IDisplay {
   readonly limit: number
   readonly page: number
   readonly sort: Sort[]
-  readonly options: any
+  readonly filters: any
 }
 
-export { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableTrigger }
+export { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableOptions, ITableDispatch }
+
+export { TableFunctions }
