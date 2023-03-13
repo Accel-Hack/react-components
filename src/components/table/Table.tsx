@@ -2,21 +2,16 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { SortDirection } from './Enums'
 import { CTableHeader } from './CTableHeader'
 import { CTableRow } from './CTableRow'
-import { IDisplay, IRowResult, ITable, ITableDispatch, ITableOptions } from './Interface'
+import { IDisplay, IRowResult, ITable, ITableDispatch } from './Interface'
 
 interface Sort {
   readonly field: string
   readonly direction: SortDirection
 }
 
-interface _ITableProps {
-  options?: ITableOptions
-  table: ITable
-}
-
-const Table: React.FC<_ITableProps> = ({ table, options }) => {
+const Table: React.FC<ITable> = ({ columns, options, func }) => {
   const limits = [1, 2, 3, 4]
-  const defaultDisplay: IDisplay = { limit: table.limit ?? limits[0], page: 1, sort: [], filters: undefined }
+  const defaultDisplay: IDisplay = { limit: limits[0], page: 1, sort: [], filters: undefined }
 
   const [{ limit, page, sort, filters }, setDisplay] = useState<IDisplay>(defaultDisplay)
   const [result, setResult] = useState<IRowResult | undefined>(undefined)
@@ -28,7 +23,7 @@ const Table: React.FC<_ITableProps> = ({ table, options }) => {
   const pagingTo = (_displayPage: number) => {
     if (_displayPage <= 0 || _displayPage > lastPage()) throw new DOMException()
     setDisplay((prev) => {
-      return { ...prev, page: _displayPage }
+      return { ...prev, _page: _displayPage }
     })
   }
 
@@ -43,19 +38,19 @@ const Table: React.FC<_ITableProps> = ({ table, options }) => {
     if (!identifier) return []
     return result?.rows.filter((_row) => checked.includes(_row[identifier])) ?? []
   }
-  table.func.dispatch = { search, getRows, getSelectedRows }
+  func.dispatch = { search, getRows, getSelectedRows }
 
   const onChangeLimit = (_event: ChangeEvent<HTMLSelectElement>) =>
     setDisplay((prev) => {
-      return { ...prev, limit: Number(_event.target.value), page: 1 }
+      return { ...prev, _limit: Number(_event.target.value), _page: 1 }
     })
 
   useEffect(() => {
     setChecked([])
-    table.func.delegate
+    func.delegate
       .getRows(limit, (page - 1) * limit, sort, filters)
       .then((_) => setResult(_))
-      .then(() => table.func.delegate.onDataLoaded?.())
+      .then(() => func.delegate.onDataLoaded?.())
   }, [limit, page, sort, filters])
 
   return (
@@ -63,18 +58,13 @@ const Table: React.FC<_ITableProps> = ({ table, options }) => {
       <table>
         <thead>
           <tr>
-            <CTableHeader columns={table.columns} sort={sort} setDisplay={setDisplay} options={options} />
+            <CTableHeader columns={columns} sort={sort} setDisplay={setDisplay} options={options} />
           </tr>
         </thead>
         <tbody>
           {result?.rows.map((_row, index) => (
-            <tr key={index} onClick={() => table.func.delegate.onRowClick?.(_row)}>
-              <CTableRow
-                columns={table.columns}
-                row={_row}
-                options={options}
-                checked={{ list: checked, set: setChecked }}
-              />
+            <tr key={index} onClick={() => func.delegate.onRowClick?.(_row)}>
+              <CTableRow columns={columns} row={_row} options={options} checked={{ list: checked, set: setChecked }} />
             </tr>
           ))}
         </tbody>

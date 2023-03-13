@@ -11,8 +11,8 @@ interface IRowResult {
 }
 
 interface ITable {
-  readonly limit?: number
   readonly columns: IColumn[]
+  options?: ITableOptions
   func: TableFunctions
 }
 

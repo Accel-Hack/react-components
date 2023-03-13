@@ -28,9 +28,9 @@ const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay,
             }
           return [s]
         })
-        return { ...prev, page: 1, sort: newSort }
+        return { ...prev, _page: 1, sort: newSort }
       }
-      return { ...prev, page: 1, sort: [...prev.sort, { field: col.field, direction: SortDirection.ASC }] }
+      return { ...prev, _page: 1, sort: [...prev.sort, { field: col.field, direction: SortDirection.ASC }] }
     })
   }
 
