@@ -4,7 +4,7 @@ import { IColumn, IDisplay, ITableOptions } from './Interface'
 import { Sort } from './Table'
 
 interface _ITableHeaderProps {
-  readonly options: ITableOptions
+  readonly options?: ITableOptions
   readonly columns: IColumn[]
   readonly sort: Sort[]
   setDisplay: Dispatch<SetStateAction<IDisplay>>
@@ -38,7 +38,7 @@ const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay,
 
   return (
     <>
-      {options?.selectable && <td />}
+      {options?.selectable?.enabled && <td />}
       {columns.map((_col, index) => (
         <td key={index} onClick={() => onClickColumn(_col)}>
           {_col.sortable ? (
