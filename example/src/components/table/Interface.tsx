@@ -18,6 +18,10 @@ interface ITable {
   readonly columns: IColumn[]
 }
 
+interface ITableOptions {
+  selectable?: boolean
+}
+
 interface ITableDelegate {
   getRows: (limit: number, offset: number, sort: Sort[], options?: any) => Promise<IRowResult>
 }
@@ -36,7 +40,7 @@ interface IDisplay {
   readonly limit: number
   readonly page: number
   readonly sort: Sort[]
-  readonly options: any
+  readonly filters: any
 }
 
-export { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableTrigger }
+export { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableOptions, ITableTrigger }

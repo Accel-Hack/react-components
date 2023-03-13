@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { FilterTable, FilterType, MyCounter, Sort } from 'ah-react-components'
+import { FilterType } from './components/filter/Enums'
+import { Sort } from './components/table/Table'
+import { FilterTable } from './components/filtertable/FilterTable'
+import MyCounter from './components/App'
 
 const filters = [
   {
@@ -25,6 +28,10 @@ const columns = [
   { field: 'desc', children: '説明' },
 ]
 
+const options = {
+  selectable: true,
+}
+
 const getRows = async (limit: number, offset: number, sort: Sort[], options?: any[]) => {
   console.log(
     `getRows(limit: ${limit}, offset: ${offset}, sort: ${JSON.stringify(sort)}, options: ${JSON.stringify(options)})`,
@@ -42,7 +49,7 @@ const getRows = async (limit: number, offset: number, sort: Sort[], options?: an
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <FilterTable filters={filters} columns={columns} delegate={{ getRows }} />
+    <FilterTable filters={filters} columns={columns} delegate={{ getRows }} options={options} />
     <div>
       <h2>Default counter</h2>
       <MyCounter />

@@ -1,15 +1,16 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { SortDirection } from './Enums'
-import { IColumn, IDisplay } from './Interface'
+import { IColumn, IDisplay, ITableOptions } from './Interface'
 import { Sort } from './Table'
 
 interface _ITableHeaderProps {
+  readonly options: ITableOptions
   readonly columns: IColumn[]
   readonly sort: Sort[]
   setDisplay: Dispatch<SetStateAction<IDisplay>>
 }
 
-const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay }) => {
+const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay, options }) => {
   const onClickColumn = (col: IColumn) => {
     if (!col.sortable)
       // no sort available
@@ -37,6 +38,7 @@ const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay 
 
   return (
     <>
+      {options?.selectable && <td />}
       {columns.map((_col, index) => (
         <td key={index} onClick={() => onClickColumn(_col)}>
           {_col.sortable ? (

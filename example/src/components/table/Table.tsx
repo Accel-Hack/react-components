@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { SortDirection } from './Enums'
 import { CTableHeader } from './CTableHeader'
 import { CTableRow } from './CTableRow'
-import { IDisplay, IRowResult, ITable, ITableTrigger } from './Interface'
+import { IDisplay, IRowResult, ITable, ITableOptions, ITableTrigger } from './Interface'
 
 interface Sort {
   readonly field: string
@@ -10,15 +10,16 @@ interface Sort {
 }
 
 interface _ITableProps {
+  options?: ITableOptions
   table: ITable
   trigger?: ITableTrigger
 }
 
-const Table: React.FC<_ITableProps> = ({ table, trigger }) => {
+const Table: React.FC<_ITableProps> = ({ table, trigger, options }) => {
   const limits = [1, 2, 3, 4]
-  const defaultDisplay: IDisplay = { limit: table.limit ?? limits[0], page: 1, sort: [], options: undefined }
+  const defaultDisplay: IDisplay = { limit: table.limit ?? limits[0], page: 1, sort: [], filters: undefined }
 
-  const [{ limit, page, sort, options }, setDisplay] = useState<IDisplay>(defaultDisplay)
+  const [{ limit, page, sort, filters }, setDisplay] = useState<IDisplay>(defaultDisplay)
   const [result, setResult] = useState<IRowResult | undefined>(undefined)
 
   const lastPage = () => Math.max(Math.ceil((result?.total ?? 0) / limit), 1)
@@ -32,7 +33,7 @@ const Table: React.FC<_ITableProps> = ({ table, trigger }) => {
 
   const search = (_options: any) =>
     setDisplay((prev) => {
-      return { ...prev, options: _options }
+      return { ...prev, filters: _options }
     })
 
   if (trigger) {
@@ -45,21 +46,21 @@ const Table: React.FC<_ITableProps> = ({ table, trigger }) => {
     })
 
   useEffect(() => {
-    table.delegate?.getRows(limit, (page - 1) * limit, sort, options).then((_) => setResult(_))
-  }, [limit, page, sort, options, table.delegate])
+    table.delegate?.getRows(limit, (page - 1) * limit, sort, filters).then((_) => setResult(_))
+  }, [limit, page, sort, filters, table.delegate])
 
   return (
     <div>
       <table>
         <thead>
           <tr>
-            <CTableHeader columns={table.columns} sort={sort} setDisplay={setDisplay} />
+            <CTableHeader columns={table.columns} sort={sort} setDisplay={setDisplay} options={options} />
           </tr>
         </thead>
         <tbody>
           {result?.rows.map((_row, index) => (
             <tr key={index} onClick={() => table.onRowClick?.(_row)}>
-              <CTableRow columns={table.columns} row={_row} />
+              <CTableRow columns={table.columns} row={_row} options={options} />
             </tr>
           ))}
         </tbody>
