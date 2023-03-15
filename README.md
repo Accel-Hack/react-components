@@ -18,56 +18,34 @@ or
 yarn add -D ah-react-components
 ```
 
-## Usage :
+## Usage 
 
-Add `ATTable` to your component:
+### Simple Table
 
 ```tsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { FilterTable, FilterType, Sort, TableFunctions } from 'ah-react-components'
+import {ARTable} from 'ah-react-components'
 
-const filters = [
-  {
-    type: FilterType.TEXT,
-    name: '検索ワード',
-    field: 'word',
-  },
-  {
-    type: FilterType.TOGGLE,
-    name: '大文字・小文字',
-    field: 'font',
-    options: [
-      { caption: 'ABC', value: 'upper' },
-      { caption: 'abc', value: 'lower' },
-    ],
-  },
-]
-
-const columns = [
-  { field: 'id', children: 'ID', sortable: true },
-  { field: 'name', children: '名前', sortable: true },
-  { field: 'desc', children: '説明' },
-]
-
-const options = {
-  selectable: { enabled: true, identifier: 'id' },
-}
-
-const getRows = async (limit: number, offset: number, sort: Sort[], options?: any[]) => {
-  return {
-    total: 10,
-    rows: [
-      { id: 1, name: 'aa', desc: 'desc1' },
-      { id: 2, name: 'aa', desc: 'desc1' },
-      { id: 3, name: 'aa', desc: 'desc1' },
-    ],
-  }
-}
-
-const func: TableFunctions = {
+const table = new ARTable.Class({
+  options: {selectable: {enabled: true, identifier: 'id'}},
+  columns: [
+    {field: 'id', children: 'ID', sortable: true},
+    {field: 'name', children: '名前', sortable: true},
+    {field: 'desc', children: '説明'},
+  ],
   delegate: {
-    getRows,
+    getRows: async (limit, offset, sort, options?) => {
+      console.log(`getRows(${limit}, ${offset}, ${JSON.stringify(sort)}, ${JSON.stringify(options)})`)
+      return {
+        total: 10,
+        rows: [
+          {id: 1, name: 'aa', desc: 'desc1'},
+          {id: 2, name: 'aa', desc: 'desc1'},
+          {id: 3, name: 'aa', desc: 'desc1'},
+        ],
+      }
+    },
     onRowClick: (row: any) => {
       console.log('onRowClick', row)
     },
@@ -75,24 +53,96 @@ const func: TableFunctions = {
       console.log('onDataLoaded')
     },
   },
-}
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <h2>Sample Table</h2>
     <div>
-      <FilterTable filters={filters} columns={columns} func={func} options={options} />
+      <ARTable.Component table={table}/>
       <button
         onClick={() => {
-          console.log('get Rows', func.dispatch?.getRows())
+          console.log('get Rows', table.getRows())
         }}
       >
         get Rows
       </button>
       <button
         onClick={() => {
-          console.log('get selected rows', func.dispatch?.getSelectedRows?.())
+          console.log('get selected rows', table.getSelectedRows())
+        }}
+      >
+        get selected rows
+      </button>
+    </div>
+  </React.StrictMode>,
+)
+```
+### Table with filters
+
+```tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { ARFilterTable, FilterType } from 'ah-react-components'
+
+// "filters" field is new from simple table
+const filterTable = new ARFilterTable.Class({
+  filters: [
+    { type: FilterType.TEXT, name: '検索ワード', field: 'word' },
+    {
+      type: FilterType.TOGGLE,
+      name: '大文字・小文字',
+      field: 'font',
+      options: [
+        { caption: 'ABC', value: 'upper' },
+        { caption: 'abc', value: 'lower' },
+      ],
+    },
+  ],
+  options: { selectable: { enabled: true, identifier: 'id' } },
+  columns: [
+    { field: 'id', children: 'ID', sortable: true },
+    { field: 'name', children: '名前', sortable: true },
+    { field: 'desc', children: '説明' },
+  ],
+  delegate: {
+    getRows: async (limit, offset, sort, options?) => {
+      console.log(`getRows(${limit}, ${offset}, ${JSON.stringify(sort)}, ${JSON.stringify(options)})`)
+      return {
+        total: 10,
+        rows: [
+          { id: 1, name: 'aa', desc: 'desc1' },
+          { id: 2, name: 'aa', desc: 'desc1' },
+          { id: 3, name: 'aa', desc: 'desc1' },
+        ],
+      }
+    },
+    onRowClick: (row: any) => {
+      console.log('onRowClick', row)
+    },
+    onDataLoaded: () => {
+      console.log('onDataLoaded')
+    },
+  },
+})
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+root.render(
+  <React.StrictMode>
+    <h2>Sample Table with Filter</h2>
+    <div>
+      <ARFilterTable.Component table={filterTable} />
+      <button
+        onClick={() => {
+          console.log('get Rows', table.getRows())
+        }}
+      >
+        get Rows
+      </button>
+      <button
+        onClick={() => {
+          console.log('get selected rows', table.getSelectedRows())
         }}
       >
         get selected rows
@@ -102,6 +152,10 @@ root.render(
 )
 ```
 
+#### Reference
+
+* [How to Create and Publish React TypeScript npm Package With Demo and Automated Build](https://betterprogramming.pub/how-to-create-and-publish-react-typescript-npm-package-with-demo-and-automated-build-80c40ec28aca)
+
 [npm-url]: https://www.npmjs.com/package/ah-react-components
 [npm-image]: https://img.shields.io/npm/v/ah-react-components
 [github-license]: https://img.shields.io/github/license/Accel-Hack/react-components
@@ -109,7 +163,3 @@ root.render(
 [github-build]: https://github.com/Accel-Hack/react-components/actions/workflows/publish.yml/badge.svg
 [github-build-url]: https://github.com/Accel-Hack/react-components/actions/workflows/publish.yml
 [npm-typescript]: https://img.shields.io/npm/types/ah-react-components
-
-#### Reference
-
-* [How to Create and Publish React TypeScript npm Package With Demo and Automated Build](https://betterprogramming.pub/how-to-create-and-publish-react-typescript-npm-package-with-demo-and-automated-build-80c40ec28aca)
