@@ -1,4 +1,8 @@
 import { FilterType } from './Enums'
+import { TextFilter } from './CTextFilter'
+import { ToggleFilter } from './CToggleFilter'
+
+type TFilters = TextFilter | ToggleFilter
 
 interface ICFilterDelegate {
   clear: () => void
@@ -12,4 +16,4 @@ interface ICFilter<T> {
   delegate?: ICFilterDelegate
 }
 
-export { ICFilterDelegate, ICFilter }
+export { ICFilterDelegate, ICFilter, TFilters }

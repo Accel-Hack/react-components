@@ -10,16 +10,16 @@ describe('Table render', () => {
   it('with no options', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getRows = async (_1: any, _2: any, _3: any, _4: any) => ({ total: 1, rows: [] })
-    const func = { delegate: { getRows } }
-    await act(async () => render(<ARTable columns={[]} func={func} />))
+    const table = new ARTable.Class({ columns: [], delegate: { getRows } })
+    await act(async () => render(<ARTable.Component table={table} />))
   })
 
   it('with no options', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getRows = async (_1: any, _2: any, _3: any, _4: any) => ({ total: 1, rows: [] })
-    const func = { delegate: { getRows } }
     const options = { selectable: { enabled: true, identifier: 'id' } }
-    await act(async () => render(<ARTable columns={[]} func={func} options={options} />))
+    const table = new ARTable.Class({ options, columns: [], delegate: { getRows } })
+    await act(async () => render(<ARTable.Component table={table} />))
   })
 })
 
@@ -27,15 +27,15 @@ describe('FilterTable render', () => {
   it('with no options', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getRows = async (_1: any, _2: any, _3: any, _4: any) => ({ total: 1, rows: [] })
-    const func = { delegate: { getRows } }
-    await act(async () => render(<ARFilterTable columns={[]} filters={[]} func={func} />))
+    const table = new ARFilterTable.Class({ filters: [], columns: [], delegate: { getRows } })
+    await act(async () => render(<ARFilterTable.Component table={table} />))
   })
 
   it('with sort options', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getRows = async (_1: any, _2: any, _3: any, _4: any) => ({ total: 1, rows: [] })
-    const func = { delegate: { getRows } }
     const options = { selectable: { enabled: true, identifier: 'id' } }
-    await act(async () => render(<ARFilterTable columns={[]} filters={[]} func={func} options={options} />))
+    const table = new ARFilterTable.Class({ filters: [], options, columns: [], delegate: { getRows } })
+    await act(async () => render(<ARFilterTable.Component table={table} />))
   })
 })

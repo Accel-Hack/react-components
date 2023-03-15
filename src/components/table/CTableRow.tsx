@@ -14,12 +14,13 @@ interface _CTableRowProps {
 const CTableRow: React.FC<_CTableRowProps> = ({ columns, row, options, checked }) => {
   const refCheckBox = useRef<HTMLInputElement>(null)
 
-  const onChangeCheck = (_event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeCheckbox = (_event: ChangeEvent<HTMLInputElement>) => {
     const identifier = options?.selectable?.identifier
     if (!identifier) return
 
     checked.set((_prev) => {
       const filteredIds = _prev.filter((_id) => _id != row[identifier])
+      // @ts-ignore
       if (!_event.target.checked) {
         return filteredIds
       }
@@ -39,7 +40,12 @@ const CTableRow: React.FC<_CTableRowProps> = ({ columns, row, options, checked }
       <>
         {options?.selectable?.enabled && (
           <td>
-            <input type='checkbox' ref={refCheckBox} onChange={onChangeCheck} />
+            <input
+              type='checkbox'
+              ref={refCheckBox}
+              onClick={(_event) => _event.stopPropagation()}
+              onChange={onChangeCheckbox}
+            />
           </td>
         )}
         {columns.map((_col, index) => {
