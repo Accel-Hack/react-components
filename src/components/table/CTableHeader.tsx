@@ -1,12 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { SortDirection } from './Enums'
-import { IColumn, IDisplay, ITableOptions } from './Interface'
-import { Sort } from './Table'
+import { IColumn, IDisplay, ISort, ITableOptions } from './Interface'
 
 interface _ITableHeaderProps {
   readonly options?: ITableOptions
   readonly columns: IColumn[]
-  readonly sort: Sort[]
+  readonly sort: ISort[]
   setDisplay: Dispatch<SetStateAction<IDisplay>>
 }
 

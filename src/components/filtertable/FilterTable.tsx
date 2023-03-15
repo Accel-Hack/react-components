@@ -1,25 +1,29 @@
 import React from 'react'
 import { FilterBox, IFilterParams } from '../filter/FilterBox'
-import { ICFilter } from '../filter/CFilter'
-import { IColumn, ITableOptions, TableFunctions } from '../table/Interface'
+import { TFilters } from '../filter/CFilter'
 import { Table } from '../table/Table'
 
-interface _FilterTableProps {
-  options?: ITableOptions
-  filters: ICFilter<any>[]
-  columns: IColumn[]
-  func: TableFunctions
+export namespace FilterTable {
+  interface _InitProps extends Table._InitProps {
+    filters: TFilters[]
+  }
+
+  export class Class extends Table.Class {
+    readonly filters: TFilters[]
+    constructor(init: _InitProps) {
+      super(init)
+      this.filters = init.filters
+    }
+  }
+
+  export const Component: React.FC<{ table: Class }> = ({ table }) => {
+    const searchCallback = (params?: IFilterParams[]) => table.search(params)
+
+    return (
+      <div>
+        <FilterBox filters={table.filters} onFiltered={searchCallback} />
+        <Table.Component table={table} />
+      </div>
+    )
+  }
 }
-
-const FilterTable: React.FC<_FilterTableProps> = ({ filters, columns, func, options }) => {
-  const searchCallback = (params?: IFilterParams[]) => func.dispatch?.search?.(params)
-
-  return (
-    <div>
-      <FilterBox filters={filters} onFiltered={searchCallback} />
-      <Table columns={columns} func={func} options={options} />
-    </div>
-  )
-}
-
-export { FilterTable, TableFunctions }

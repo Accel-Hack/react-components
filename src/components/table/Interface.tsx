@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sort } from './Table'
+import { SortDirection } from './Enums'
 
 interface IRow {
   [name: string]: React.ReactNode
@@ -10,15 +10,16 @@ interface IRowResult {
   readonly rows: IRow[]
 }
 
+interface ISort {
+  readonly field: string
+  readonly direction: SortDirection
+}
+
 interface ITable {
   readonly columns: IColumn[]
   options?: ITableOptions
-  func: TableFunctions
-}
-
-interface TableFunctions {
   delegate: ITableDelegate
-  dispatch?: ITableDispatch
+  _dispatch?: ITableDispatch
 }
 
 interface ITableOptions {
@@ -29,7 +30,7 @@ interface ITableOptions {
 }
 
 interface ITableDelegate {
-  getRows: (limit: number, offset: number, sort: Sort[], options?: any) => Promise<IRowResult>
+  getRows: (limit: number, offset: number, sort: ISort[], options?: any) => Promise<IRowResult>
   onRowClick?: (row: IRow) => void
   onDataLoaded?: () => void
 }
@@ -49,10 +50,8 @@ interface IColumn {
 interface IDisplay {
   readonly limit: number
   readonly page: number
-  readonly sort: Sort[]
+  readonly sort: ISort[]
   readonly filters: any
 }
 
-export { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableOptions, ITableDispatch }
-
-export { TableFunctions }
+export { IColumn, IDisplay, IRow, IRowResult, ISort, ITable, ITableDelegate, ITableOptions, ITableDispatch }

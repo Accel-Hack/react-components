@@ -1,5 +1,5 @@
 import React from 'react'
-import { ICFilter } from './CFilter'
+import { TFilters } from './CFilter'
 import { FilterType } from './Enums'
 import { CTextFilter, TextFilter } from './CTextFilter'
 import { CToggleFilter, ToggleFilter } from './CToggleFilter'
@@ -10,12 +10,12 @@ interface IFilterParams {
 }
 
 interface _FilterBoxProps {
-  filters: ICFilter<any>[]
+  filters: TFilters[]
   onFiltered?: (params?: IFilterParams[]) => void
 }
 
 const FilterBox: React.FC<_FilterBoxProps> = ({ filters, onFiltered }) => {
-  const buildComponent = (search: ICFilter<any>, key: number) => {
+  const buildComponent = (search: TFilters, key: number) => {
     switch (search.type) {
       case FilterType.TEXT:
         return <CTextFilter key={key} search={search as TextFilter} />
