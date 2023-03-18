@@ -8,13 +8,13 @@
 ## Installation:
 
 ```bash
-npm install ah-react-components --save-dev
+npm install @accelhack-org/react-components --save-dev
 ```
 
 or
 
 ```bash
-yarn add -D ah-react-components
+yarn add -D @accelhack-org/react-components
 ```
 
 ### Usage
