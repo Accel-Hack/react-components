@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ARFilter, ARFilterTable, ARTable, FilterType } from 'ah-react-components'
+// import { ARFilter, ARFilterTable, ARTable, FilterType } from '../../src/index'
 
 const filter = new ARFilter.Class({
   filters: [

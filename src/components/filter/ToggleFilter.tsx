@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ICFilter, ICFilterDelegate } from './CFilter'
 import { FilterType } from './Enums'
-import { PartialPromise, ResultOf } from '../../shared/Types'
+import { PartialPromise, ResultOf } from '../../shared/PartialPromise'
 
 interface _IFilterToggleOption {
   caption: string
