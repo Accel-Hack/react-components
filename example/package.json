@@ -9,7 +9,7 @@
   "devDependencies": {
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "@accelhack-org/react-tables": "0.2.0",
+    "@accelhack-org/react-components": "0.2.0",
     "parcel": "^2.8.3",
     "process": "^0.11.10",
     "react": "^18.2.0",

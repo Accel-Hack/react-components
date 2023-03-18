@@ -1,6 +1,33 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ARFilterTable, ARTable, FilterType } from 'ah-react-components'
+import { ARFilter, ARFilterTable, ARTable, FilterType } from 'ah-react-components'
+
+const filter = new ARFilter.Class({
+  filters: [
+    { type: FilterType.TEXT, name: '検索ワード', field: 'word' },
+    {
+      type: FilterType.TOGGLE,
+      name: '大文字・小文字',
+      field: 'font',
+      options: [
+        { caption: 'ABC', value: 'upper' },
+        { caption: 'abc', value: 'lower' },
+      ],
+    },
+    {
+      type: FilterType.SELECTABLE,
+      name: '言語',
+      field: 'language',
+      maxCount: 2,
+      options: [
+        { caption: 'English', value: 'en' },
+        { caption: 'Japanese', value: 'ja' },
+        { caption: 'French', value: 'fr' },
+      ],
+    },
+  ],
+  onFiltered: (options) => console.log('filtered param', options),
+})
 
 const table = new ARTable.Class({
   options: { selectable: { enabled: true, identifier: 'id' } },
@@ -42,6 +69,17 @@ const filterTable = new ARFilterTable.Class({
         { caption: 'abc', value: 'lower' },
       ],
     },
+    {
+      type: FilterType.SELECTABLE,
+      name: '言語',
+      field: 'language',
+      maxCount: 2,
+      options: [
+        { caption: 'English', value: 'en' },
+        { caption: 'Japanese', value: 'ja' },
+        { caption: 'French', value: 'fr' },
+      ],
+    },
   ],
   options: { selectable: { enabled: true, identifier: 'id' } },
   columns: [
@@ -73,6 +111,13 @@ const filterTable = new ARFilterTable.Class({
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
+    <div>
+      <h2>Filters</h2>
+      <div>
+        <ARFilter.Component filterBox={filter} />
+      </div>
+    </div>
+    <hr></hr>
     <div>
       <h2>Sample Table</h2>
       <div>
