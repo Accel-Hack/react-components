@@ -3,6 +3,7 @@ import { TFilters } from './CFilter'
 import { FilterType } from './Enums'
 import { CTextFilter, TextFilter } from './CTextFilter'
 import { CToggleFilter, ToggleFilter } from './CToggleFilter'
+import { CSelectableFilter, SelectableFilter } from './CSelectableFilter'
 
 interface IFilterParams {
   field: string
@@ -15,12 +16,14 @@ interface _FilterBoxProps {
 }
 
 const FilterBox: React.FC<_FilterBoxProps> = ({ filters, onFiltered }) => {
-  const buildComponent = (search: TFilters, key: number) => {
-    switch (search.type) {
+  const buildComponent = (filter: TFilters, key: number) => {
+    switch (filter.type) {
       case FilterType.TEXT:
-        return <CTextFilter key={key} search={search as TextFilter} />
+        return <CTextFilter key={key} filter={filter as TextFilter} />
       case FilterType.TOGGLE:
-        return <CToggleFilter key={key} search={search as ToggleFilter} />
+        return <CToggleFilter key={key} filter={filter as ToggleFilter} />
+      case FilterType.SELECTABLE:
+        return <CSelectableFilter key={key} filter={filter as SelectableFilter} />
       default:
         throw new DOMException('Not Implemented')
     }

@@ -1,8 +1,9 @@
 import { FilterType } from './Enums'
 import { TextFilter } from './CTextFilter'
 import { ToggleFilter } from './CToggleFilter'
+import { SelectableFilter } from './CSelectableFilter'
 
-type TFilters = TextFilter | ToggleFilter
+type TFilters = TextFilter | ToggleFilter | SelectableFilter
 
 interface ICFilterDelegate {
   clear: () => void

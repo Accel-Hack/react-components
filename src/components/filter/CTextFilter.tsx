@@ -10,20 +10,20 @@ class TextFilter implements ICFilter<string> {
   value?: string
 }
 
-const CTextFilter: React.FC<{ search: TextFilter }> = ({ search }) => {
+const CTextFilter: React.FC<{ filter: TextFilter }> = ({ filter }) => {
   const refTextInput = useRef<HTMLInputElement>(null)
-  const onTextChange = (event: ChangeEvent<HTMLInputElement>) => (search.value = event.target.value)
+  const onTextChange = (event: ChangeEvent<HTMLInputElement>) => (filter.value = event.target.value)
 
-  search.delegate = {
+  filter.delegate = {
     clear: () => {
       refTextInput.current && (refTextInput.current.value = '')
-      search.value = ''
+      filter.value = ''
     },
   } as ICFilterDelegate
 
   return (
     <div>
-      <label>{search.name}</label>
+      <label>{filter.name}</label>
       <input type='text' ref={refTextInput} onChange={onTextChange} />
     </div>
   )
