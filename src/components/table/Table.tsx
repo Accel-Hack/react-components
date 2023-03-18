@@ -3,19 +3,19 @@ import { CTableHeader } from './CTableHeader'
 import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
 
-export namespace Table {
-  export interface _InitProps {
-    options?: ITableOptions
-    columns: IColumn[]
-    delegate: ITableDelegate
-  }
+export interface InitProps {
+  options?: ITableOptions
+  columns: IColumn[]
+  delegate: ITableDelegate
+}
 
+export namespace Table {
   export class Class implements ITable {
     options?: ITableOptions
     readonly columns: IColumn[]
     delegate: ITableDelegate
     _dispatch?: ITableDispatch
-    constructor(init: _InitProps) {
+    constructor(init: InitProps) {
       this.options = init.options
       this.columns = init.columns
       this.delegate = init.delegate
