@@ -3,7 +3,7 @@ import { ICFilter, ICFilterDelegate } from './CFilter'
 import { FilterType } from './Enums'
 import { PartialPromise, ResultOf } from '../../shared/PartialPromise'
 
-interface _IFilterToggleOption {
+interface _IToggleFilterOption {
   caption: string
   value: string
 }
@@ -13,14 +13,14 @@ namespace ToggleFilter {
     readonly type: FilterType
     readonly name: string
     readonly field: string
-    options: PartialPromise<_IFilterToggleOption[]>
+    options: PartialPromise<void, _IToggleFilterOption[]>
   }
 
   export class Class implements ICFilter<string> {
     readonly type: FilterType = FilterType.TOGGLE
     readonly name: string
     readonly field: string
-    options: PartialPromise<_IFilterToggleOption[]> = []
+    options: PartialPromise<void, _IToggleFilterOption[]> = []
     value: string | undefined
     delegate?: ICFilterDelegate
 
@@ -33,7 +33,7 @@ namespace ToggleFilter {
 
   export const Component: React.FC<{ filter: Class }> = ({ filter }) => {
     const [value, setValue] = useState(filter.value)
-    const [options, setOptions] = useState<_IFilterToggleOption[]>([])
+    const [options, setOptions] = useState<_IToggleFilterOption[]>([])
 
     const onClick = (value: string) => {
       filter.value = value
@@ -45,7 +45,10 @@ namespace ToggleFilter {
     } as ICFilterDelegate
 
     useEffect(() => {
-      ResultOf(filter.options, (_options) => setOptions(_options))
+      ResultOf({
+        partialPromise: filter.options,
+        success: (_options) => setOptions(_options),
+      })
     }, [])
 
     return (

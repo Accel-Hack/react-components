@@ -25,8 +25,33 @@ const filter = new ARFilter.Class({
         { caption: 'French', value: 'fr' },
       ],
     },
+    {
+      type: FilterType.SELECTABLE,
+      name: '非同期',
+      field: 'async',
+      options: async () => {
+        return [
+          { caption: 'try', value: 'ty' },
+          { caption: 'catch', value: 'ct' },
+          { caption: 'finally', value: 'fn' },
+        ]
+      },
+    },
+    {
+      type: FilterType.SUGGESTION,
+      name: '科目',
+      field: 'subject',
+      options: async (param) => {
+        const list = [
+          { caption: 'try', value: 'ty' },
+          { caption: 'catch', value: 'ct' },
+          { caption: 'finally', value: 'fn' },
+        ]
+        return list.filter((f) => f.caption.includes(param))
+      },
+    },
   ],
-  onFiltered: (options) => console.log('filtered param', options),
+  onFiltered: (options: any) => console.log('filtered param', options),
 })
 
 const table = new ARTable.Class({
