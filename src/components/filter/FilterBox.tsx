@@ -4,6 +4,7 @@ import { FilterType } from './Enums'
 import { TextFilter } from './TextFilter'
 import { ToggleFilter } from './ToggleFilter'
 import { SelectableFilter } from './SelectableFilter'
+import { SuggestionFilter } from './SuggestionFilter'
 
 export interface IFilterParams {
   field: string
@@ -14,7 +15,7 @@ interface IFilterDelegate {
   onFiltered?: (params?: IFilterParams[]) => void
 }
 
-type Filters = TextFilter.Class | ToggleFilter.Class | SelectableFilter.Class
+type Filters = TextFilter.Class | ToggleFilter.Class | SelectableFilter.Class | SuggestionFilter.Class
 
 export namespace Filter {
   interface _InitProps {
@@ -35,6 +36,8 @@ export namespace Filter {
             return new ToggleFilter.Class(f as ToggleFilter.Props)
           case FilterType.SELECTABLE:
             return new SelectableFilter.Class(f as SelectableFilter.Props)
+          case FilterType.SUGGESTION:
+            return new SuggestionFilter.Class(f as SuggestionFilter.Props)
           default:
             throw new DOMException('Not Implemented')
         }
@@ -52,6 +55,8 @@ export namespace Filter {
           return <ToggleFilter.Component key={key} filter={filter as ToggleFilter.Class} />
         case FilterType.SELECTABLE:
           return <SelectableFilter.Component key={key} filter={filter as SelectableFilter.Class} />
+        case FilterType.SUGGESTION:
+          return <SuggestionFilter.Component key={key} filter={filter as SuggestionFilter.Class} />
         default:
           throw new DOMException('Not Implemented')
       }

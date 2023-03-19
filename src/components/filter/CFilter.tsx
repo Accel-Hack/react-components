@@ -2,8 +2,9 @@ import { FilterType } from './Enums'
 import { TextFilter } from './TextFilter'
 import { SelectableFilter } from './SelectableFilter'
 import { ToggleFilter } from './ToggleFilter'
+import { SuggestionFilter } from './SuggestionFilter'
 
-type TFilters = TextFilter.Props | ToggleFilter.Props | SelectableFilter.Props
+type TFilters = TextFilter.Props | ToggleFilter.Props | SelectableFilter.Props | SuggestionFilter.Props
 
 interface ICFilterDelegate {
   clear: () => void

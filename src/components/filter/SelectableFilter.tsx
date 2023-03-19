@@ -3,7 +3,7 @@ import { ICFilter, ICFilterDelegate } from './CFilter'
 import { FilterType } from './Enums'
 import { PartialPromise, ResultOf } from '../../shared/PartialPromise'
 
-interface _IFilterSelectOption {
+interface _ISelectFilterOption {
   caption: string
   value: string
 }
@@ -13,7 +13,7 @@ namespace SelectableFilter {
     readonly type: FilterType
     readonly name: string
     readonly field: string
-    readonly options: PartialPromise<_IFilterSelectOption[]>
+    readonly options: PartialPromise<void, _ISelectFilterOption[]>
     readonly maxCount?: number
   }
 
@@ -21,7 +21,7 @@ namespace SelectableFilter {
     readonly type: FilterType = FilterType.SELECTABLE
     readonly name: string
     readonly field: string
-    options: PartialPromise<_IFilterSelectOption[]> = []
+    options: PartialPromise<void, _ISelectFilterOption[]> = []
     maxCount: number
 
     get value(): string {
@@ -41,7 +41,7 @@ namespace SelectableFilter {
 
   export const Component: React.FC<{ filter: Class }> = ({ filter }) => {
     const [selected, setSelected] = useState<string[]>([])
-    const [options, setOptions] = useState<_IFilterSelectOption[]>([])
+    const [options, setOptions] = useState<_ISelectFilterOption[]>([])
 
     const clear = () => {
       filter._values = []
@@ -63,7 +63,10 @@ namespace SelectableFilter {
     filter.delegate = { clear } as ICFilterDelegate
 
     useEffect(() => {
-      ResultOf(filter.options, (_options) => setOptions(_options))
+      ResultOf({
+        partialPromise: filter.options,
+        success: (_options) => setOptions(_options),
+      })
     }, [])
 
     return (

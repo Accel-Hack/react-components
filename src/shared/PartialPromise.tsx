@@ -1,9 +1,19 @@
-type PartialPromise<T> = T | (() => Promise<T>)
+type PartialPromise<Req, Res> = Res | ((request?: Req) => Promise<Res>)
 
-function ResultOf<T>(partialPromise: PartialPromise<T>, success: (_: T) => void, failure?: (_: any) => void) {
-  Promise.resolve(partialPromise instanceof Function ? partialPromise() : partialPromise)
-    .then(success)
-    .catch((err) => failure?.(err))
+interface IResultOf<Req, Res> {
+  partialPromise: PartialPromise<Req, Res>
+  request?: Req
+  success: (_: Res) => void
+  failure?: (_: any) => void
+}
+
+function ResultOf<Req, Res>(props: IResultOf<Req, Res>) {
+  const promise: Promise<Res> =
+    props.partialPromise instanceof Function
+      ? props.partialPromise(props.request)
+      : Promise.resolve(props.partialPromise)
+
+  promise.then((op) => props.success(op)).catch((err) => props.failure?.(err))
 }
 
 export { PartialPromise, ResultOf }
