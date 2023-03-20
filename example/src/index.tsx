@@ -41,7 +41,7 @@ const filter = new ARFilter.Class({
       type: FilterType.SUGGESTION,
       name: '科目',
       field: 'subject',
-      options: async (param) => {
+      options: async (param?: string) => {
         const list = [
           { caption: 'try', value: 'ty' },
           { caption: 'catch', value: 'ct' },
