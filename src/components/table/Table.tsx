@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { CTableHeader } from './CTableHeader'
+import { CTableHeader, IHeaderDelegate } from './CTableHeader'
 import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
 
@@ -73,6 +73,22 @@ export namespace Table {
         return { ...prev, limit: Number(_event.target.value), page: 1 }
       })
 
+    const headerDelegate: IHeaderDelegate = {}
+
+    const onAllChecked = (_checked: boolean) => {
+      const identifier = table.options?.selectable?.identifier
+      if (!identifier) return
+      if (_checked) {
+        setChecked(result?.rows.map((_) => _[identifier]) ?? [])
+      } else {
+        setChecked([])
+      }
+    }
+
+    useEffect(() => {
+      headerDelegate.setCheckBox?.(checked.length == result?.rows.length)
+    }, [checked])
+
     useEffect(() => {
       setChecked([])
       table.delegate
@@ -86,7 +102,14 @@ export namespace Table {
         <table>
           <thead>
             <tr>
-              <CTableHeader columns={table.columns} sort={sort} setDisplay={setDisplay} options={table.options} />
+              <CTableHeader
+                columns={table.columns}
+                options={table.options}
+                sort={sort}
+                setDisplay={setDisplay}
+                checked={onAllChecked}
+                delegate={headerDelegate}
+              />
             </tr>
           </thead>
           <tbody>
@@ -94,8 +117,8 @@ export namespace Table {
               <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
                 <CTableRow
                   columns={table.columns}
-                  row={_row}
                   options={table.options}
+                  row={_row}
                   checked={{ list: checked, set: setChecked }}
                 />
               </tr>

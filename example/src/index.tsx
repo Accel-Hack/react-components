@@ -47,7 +47,7 @@ const filter = new ARFilter.Class({
           { caption: 'catch', value: 'ct' },
           { caption: 'finally', value: 'fn' },
         ]
-        return list.filter((f) => f.caption.includes(param))
+        return list.filter((f) => f.caption.includes(param ?? ''))
       },
     },
   ],

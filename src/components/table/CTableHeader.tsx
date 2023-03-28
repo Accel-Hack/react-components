@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react'
 import { SortDirection } from './Enums'
 import { IColumn, IDisplay, ISort, ITableOptions } from './Interface'
 
@@ -7,9 +7,15 @@ interface _ITableHeaderProps {
   readonly columns: IColumn[]
   readonly sort: ISort[]
   setDisplay: Dispatch<SetStateAction<IDisplay>>
+  checked?: (_0: boolean) => void
+  delegate: IHeaderDelegate
 }
 
-const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay, options }) => {
+export interface IHeaderDelegate {
+  setCheckBox?: (_0: boolean) => void
+}
+
+const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay, options, checked, delegate }) => {
   const onClickColumn = (col: IColumn) => {
     if (!col.sortable)
       // no sort available
@@ -33,11 +39,27 @@ const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay,
     })
   }
 
+  const refCheckBox = useRef<HTMLInputElement>(null)
+  const onChangeCheckbox = (_event: ChangeEvent<HTMLInputElement>) => checked?.(_event.target.checked)
+
   const findSort = (col: IColumn) => sort.findIndex((s) => s.field === col.field)
+
+  delegate.setCheckBox = (checked: boolean) => {
+    if (refCheckBox.current) refCheckBox.current.checked = checked
+  }
 
   return (
     <>
-      {options?.selectable?.enabled && <td />}
+      {options?.selectable?.enabled && (
+        <td>
+          <input
+            type='checkbox'
+            ref={refCheckBox}
+            onClick={(_event) => _event.stopPropagation()}
+            onChange={onChangeCheckbox}
+          />
+        </td>
+      )}
       {columns.map((_col, index) => (
         <td key={index} onClick={() => onClickColumn(_col)}>
           {_col.sortable ? (
