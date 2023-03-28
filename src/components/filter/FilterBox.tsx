@@ -67,7 +67,7 @@ export namespace Filter {
         if (!_search.value) return []
         return [{ field: _search.field, value: _search.value } as IFilterParams]
       })
-      filterBox.delegate.onFiltered?.(options.length > 0 ? options : undefined)
+      filterBox.delegate.onFiltered?.(options)
     }
 
     const clear = () => {
