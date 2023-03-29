@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, memo, useEffect, useState } from 'react'
 import { CTableHeader, IHeaderDelegate } from './CTableHeader'
 import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
@@ -37,7 +37,7 @@ export namespace Table {
     }
   }
 
-  export const Component: React.FC<{ table: Class }> = ({ table }) => {
+  const _Component: React.FC<{ table: Class }> = ({ table }) => {
     const limits = table.options?.limit ?? [20, 50, 100, 200]
     const defaultDisplay: IDisplay = { limit: limits[0], page: 1, sort: [], filters: undefined }
 
@@ -159,4 +159,6 @@ export namespace Table {
       </div>
     )
   }
+
+  export const Component = memo(_Component)
 }

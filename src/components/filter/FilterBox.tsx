@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { TFilters } from './CFilter'
 import { FilterType } from './Enums'
 import { TextFilter } from './TextFilter'
@@ -46,7 +46,7 @@ export namespace Filter {
     }
   }
 
-  export const Component: React.FC<{ filterBox: Class }> = ({ filterBox }) => {
+  const _component: React.FC<{ filterBox: Class }> = ({ filterBox }) => {
     const buildComponent = (filter: Filters, key: number) => {
       switch (filter.type) {
         case FilterType.TEXT:
@@ -83,4 +83,6 @@ export namespace Filter {
       </div>
     )
   }
+
+  export const Component = memo(_component)
 }

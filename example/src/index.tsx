@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import ReactDOM from 'react-dom/client'
 import { ARFilter, ARFilterTable, ARTable, FilterType } from '@accelhack-org/react-components'
 
@@ -64,7 +64,7 @@ const table = new ARTable.Class({
   delegate: {
     getRows: async (limit, offset, sort, options) => {
       console.log(`getRows(${limit}, ${offset}, ${JSON.stringify(sort)}, ${JSON.stringify(options)})`)
-      const rand = Math.floor(3 * Math.random() + 1);
+      const rand = Math.floor(3 * Math.random() + 1)
       const rows = [
         { id: 1, name: 'aa', desc: 'desc1' },
         { id: 2, name: 'aa', desc: 'desc1' },
