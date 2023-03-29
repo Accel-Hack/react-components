@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { TFilters } from './CFilter'
 import { FilterType } from './Enums'
 import { TextFilter } from './TextFilter'
@@ -12,7 +12,7 @@ export interface IFilterParams {
 }
 
 interface IFilterDelegate {
-  onFiltered?: (params?: IFilterParams[]) => void
+  onFiltered?: (params: IFilterParams[]) => void
 }
 
 type Filters = TextFilter.Class | ToggleFilter.Class | SelectableFilter.Class | SuggestionFilter.Class
@@ -20,7 +20,7 @@ type Filters = TextFilter.Class | ToggleFilter.Class | SelectableFilter.Class | 
 export namespace Filter {
   interface _InitProps {
     filters: TFilters[]
-    onFiltered?: (params?: IFilterParams[]) => void
+    onFiltered?: (params: IFilterParams[]) => void
   }
 
   export class Class {
@@ -46,7 +46,7 @@ export namespace Filter {
     }
   }
 
-  export const Component: React.FC<{ filterBox: Class }> = ({ filterBox }) => {
+  const _component: React.FC<{ filterBox: Class }> = ({ filterBox }) => {
     const buildComponent = (filter: Filters, key: number) => {
       switch (filter.type) {
         case FilterType.TEXT:
@@ -83,4 +83,6 @@ export namespace Filter {
       </div>
     )
   }
+
+  export const Component = memo(_component)
 }

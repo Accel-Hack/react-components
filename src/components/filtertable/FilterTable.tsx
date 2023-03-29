@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Filter, IFilterParams } from '../filter/FilterBox'
 import { TFilters } from '../filter/CFilter'
 import { InitProps, Table } from '../table/Table'
@@ -17,8 +17,8 @@ export namespace FilterTable {
     }
   }
 
-  export const Component: React.FC<{ table: Class }> = ({ table }) => {
-    const searchCallback = (params?: IFilterParams[]) => table.search(params)
+  const _Component: React.FC<{ table: Class }> = ({ table }) => {
+    const searchCallback = (params: IFilterParams[]) => table.search(params)
 
     const filterBox = new Filter.Class({
       filters: table.filters,
@@ -32,4 +32,6 @@ export namespace FilterTable {
       </div>
     )
   }
+
+  export const Component = memo(_Component)
 }
