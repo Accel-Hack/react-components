@@ -23,6 +23,7 @@ interface ITable {
 }
 
 interface ITableOptions {
+  limit?: number[]
   selectable?: {
     enabled: boolean
     identifier: string
@@ -30,13 +31,13 @@ interface ITableOptions {
 }
 
 interface ITableDelegate {
-  getRows: (limit: number, offset: number, sort: ISort[], options?: any) => Promise<IRowResult>
+  getRows: (limit: number, offset: number, sort: ISort[], options: any) => Promise<IRowResult>
   onRowClick?: (row: IRow) => void
   onDataLoaded?: () => void
 }
 
 interface ITableDispatch {
-  search: (option?: any[]) => void
+  search: (option: any[]) => void
   getRows: () => IRow[]
   getSelectedRows: () => IRow[]
 }

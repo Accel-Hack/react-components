@@ -18,7 +18,7 @@ export namespace FilterTable {
   }
 
   export const Component: React.FC<{ table: Class }> = ({ table }) => {
-    const searchCallback = (params?: IFilterParams[]) => table.search(params)
+    const searchCallback = (params: IFilterParams[]) => table.search(params)
 
     const filterBox = new Filter.Class({
       filters: table.filters,

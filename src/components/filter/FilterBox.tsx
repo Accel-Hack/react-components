@@ -12,7 +12,7 @@ export interface IFilterParams {
 }
 
 interface IFilterDelegate {
-  onFiltered?: (params?: IFilterParams[]) => void
+  onFiltered?: (params: IFilterParams[]) => void
 }
 
 type Filters = TextFilter.Class | ToggleFilter.Class | SelectableFilter.Class | SuggestionFilter.Class
@@ -20,7 +20,7 @@ type Filters = TextFilter.Class | ToggleFilter.Class | SelectableFilter.Class | 
 export namespace Filter {
   interface _InitProps {
     filters: TFilters[]
-    onFiltered?: (params?: IFilterParams[]) => void
+    onFiltered?: (params: IFilterParams[]) => void
   }
 
   export class Class {

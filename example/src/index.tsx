@@ -62,15 +62,24 @@ const table = new ARTable.Class({
     { field: 'desc', children: '説明' },
   ],
   delegate: {
-    getRows: async (limit, offset, sort, options?) => {
+    getRows: async (limit, offset, sort, options) => {
       console.log(`getRows(${limit}, ${offset}, ${JSON.stringify(sort)}, ${JSON.stringify(options)})`)
+      const rand = Math.floor(3 * Math.random() + 1);
+      const rows = [
+        { id: 1, name: 'aa', desc: 'desc1' },
+        { id: 2, name: 'aa', desc: 'desc1' },
+        { id: 3, name: 'aa', desc: 'desc1' },
+        { id: 4, name: 'aa', desc: 'desc1' },
+        { id: 5, name: 'aa', desc: 'desc1' },
+        { id: 6, name: 'aa', desc: 'desc1' },
+        { id: 7, name: 'aa', desc: 'desc1' },
+        { id: 8, name: 'aa', desc: 'desc1' },
+        { id: 9, name: 'aa', desc: 'desc1' },
+        { id: 10, name: 'aa', desc: 'desc1' },
+      ].filter((r) => r.id % rand == 0)
       return {
         total: 10,
-        rows: [
-          { id: 1, name: 'aa', desc: 'desc1' },
-          { id: 2, name: 'aa', desc: 'desc1' },
-          { id: 3, name: 'aa', desc: 'desc1' },
-        ],
+        rows: rows,
       }
     },
     onRowClick: (row: any) => {
@@ -113,15 +122,34 @@ const filterTable = new ARFilterTable.Class({
     { field: 'desc', children: '説明' },
   ],
   delegate: {
-    getRows: async (limit, offset, sort, options?) => {
+    getRows: async (limit, offset, sort, options) => {
       console.log(`getRows(${limit}, ${offset}, ${JSON.stringify(sort)}, ${JSON.stringify(options)})`)
+      const rand = Math.floor(10 * Math.random() + 1)
+      const rows = [
+        { id: 1, name: 'aa', desc: 'desc1' },
+        { id: 2, name: 'aa', desc: 'desc1' },
+        { id: 3, name: 'aa', desc: 'desc1' },
+        { id: 4, name: 'aa', desc: 'desc1' },
+        { id: 5, name: 'aa', desc: 'desc1' },
+        { id: 6, name: 'aa', desc: 'desc1' },
+        { id: 7, name: 'aa', desc: 'desc1' },
+        { id: 8, name: 'aa', desc: 'desc1' },
+        { id: 9, name: 'aa', desc: 'desc1' },
+        { id: 10, name: 'aa', desc: 'desc1' },
+        { id: 11, name: 'aa', desc: 'desc1' },
+        { id: 12, name: 'aa', desc: 'desc1' },
+        { id: 13, name: 'aa', desc: 'desc1' },
+        { id: 14, name: 'aa', desc: 'desc1' },
+        { id: 15, name: 'aa', desc: 'desc1' },
+        { id: 16, name: 'aa', desc: 'desc1' },
+        { id: 17, name: 'aa', desc: 'desc1' },
+        { id: 18, name: 'aa', desc: 'desc1' },
+        { id: 19, name: 'aa', desc: 'desc1' },
+        { id: 20, name: 'aa', desc: 'desc1' },
+      ].filter((r) => r.id % rand == 0)
       return {
         total: 10,
-        rows: [
-          { id: 1, name: 'aa', desc: 'desc1' },
-          { id: 2, name: 'aa', desc: 'desc1' },
-          { id: 3, name: 'aa', desc: 'desc1' },
-        ],
+        rows: rows,
       }
     },
     onRowClick: (row: any) => {

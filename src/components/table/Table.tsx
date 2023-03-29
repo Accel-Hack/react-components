@@ -21,7 +21,7 @@ export namespace Table {
       this.delegate = init.delegate
     }
 
-    search(option?: any[]): void {
+    search(option: any[]): void {
       if (!this._dispatch?.search) throw new Error()
       this._dispatch?.search(option)
     }
@@ -38,7 +38,7 @@ export namespace Table {
   }
 
   export const Component: React.FC<{ table: Class }> = ({ table }) => {
-    const limits = [1, 2, 3, 4]
+    const limits = table.options?.limit ?? [20, 50, 100, 200]
     const defaultDisplay: IDisplay = { limit: limits[0], page: 1, sort: [], filters: undefined }
 
     const [{ limit, page, sort, filters }, setDisplay] = useState<IDisplay>(defaultDisplay)
