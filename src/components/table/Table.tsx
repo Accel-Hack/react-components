@@ -21,9 +21,9 @@ export namespace Table {
       this.delegate = init.delegate
     }
 
-    search(option: any[]): void {
+    search(filters?: any[]): void {
       if (!this._dispatch?.search) throw new Error()
-      this._dispatch?.search(option)
+      this._dispatch?.search(filters ?? [])
     }
 
     getRows(): IRow[] {
@@ -56,9 +56,9 @@ export namespace Table {
     }
 
     // set dispatch
-    const search = (_options: any) =>
+    const search = (_filters: any[]) =>
       setDisplay((prev) => {
-        return { ...prev, filters: _options }
+        return { ...prev, filters: _filters }
       })
     const getRows = () => result?.rows ?? []
     const getSelectedRows = () => {

@@ -37,7 +37,7 @@ interface ITableDelegate {
 }
 
 interface ITableDispatch {
-  search: (option: any[]) => void
+  search: (filter: any[]) => void
   getRows: () => IRow[]
   getSelectedRows: () => IRow[]
 }
