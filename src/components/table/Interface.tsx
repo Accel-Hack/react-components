@@ -52,7 +52,7 @@ interface IDisplay {
   readonly limit: number
   readonly page: number
   readonly sort: ISort[]
-  readonly filters: any
+  readonly filters: any[]
 }
 
 export { IColumn, IDisplay, IRow, IRowResult, ISort, ITable, ITableDelegate, ITableOptions, ITableDispatch }

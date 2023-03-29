@@ -15,6 +15,10 @@ interface IFilterDelegate {
   onFiltered?: (params: IFilterParams[]) => void
 }
 
+interface IFilterDispatch {
+  search: () => void
+}
+
 type Filters = TextFilter.Class | ToggleFilter.Class | SelectableFilter.Class | SuggestionFilter.Class
 
 export namespace Filter {
@@ -44,6 +48,13 @@ export namespace Filter {
       })
       this.delegate = { onFiltered: init.onFiltered }
     }
+
+    _dispatch?: IFilterDispatch
+
+    search(): void {
+      if (!this._dispatch?.search) throw new Error()
+      this._dispatch?.search()
+    }
   }
 
   const _component: React.FC<{ filterBox: Class }> = ({ filterBox }) => {
@@ -69,6 +80,8 @@ export namespace Filter {
       })
       filterBox.delegate.onFiltered?.(options)
     }
+
+    filterBox._dispatch = { search: onSearch }
 
     const clear = () => {
       filterBox.filters.forEach((_) => _.delegate?.clear())

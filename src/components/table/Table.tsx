@@ -39,7 +39,7 @@ export namespace Table {
 
   const _Component: React.FC<{ table: Class }> = ({ table }) => {
     const limits = table.options?.limit ?? [20, 50, 100, 200]
-    const defaultDisplay: IDisplay = { limit: limits[0], page: 1, sort: [], filters: undefined }
+    const defaultDisplay: IDisplay = { limit: limits[0], page: 1, sort: [], filters: [] }
 
     const [{ limit, page, sort, filters }, setDisplay] = useState<IDisplay>(defaultDisplay)
     const [result, setResult] = useState<IRowResult | undefined>(undefined)
