@@ -53,5 +53,8 @@
   "peerDependencies": {
     "node": ">=18",
     "react": ">=16"
+  },
+  "dependencies": {
+    "sass": "^1.60.0"
   }
 }

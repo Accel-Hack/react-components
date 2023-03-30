@@ -52,8 +52,8 @@ namespace ToggleFilter {
     }, [])
 
     return (
-      <div>
-        <div>{filter.name}</div>
+      <div className={'rc-Filter rc-ToggleFilter'}>
+        <label>{filter.name}</label>
         <div>
           {options.map((_option, index) => (
             <button key={index} disabled={_option.value == value} onClick={() => onClick(_option.value)}>

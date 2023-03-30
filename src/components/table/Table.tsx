@@ -3,6 +3,7 @@ import { CTableHeader, IHeaderDelegate } from './CTableHeader'
 import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
 import { usePrevious } from '../../shared/usePrevious'
+import '../../index.scss'
 
 export interface InitProps {
   options?: ITableOptions
@@ -113,8 +114,8 @@ export namespace Table {
     }, [limit, page, sort, filters])
 
     return (
-      <div>
-        <table>
+      <div className={'rc-Table'} style={{ position: 'relative' }}>
+        <table className={'divide-y divide-gray-300'}>
           <thead>
             <tr>
               <CTableHeader
@@ -127,7 +128,7 @@ export namespace Table {
               />
             </tr>
           </thead>
-          <tbody>
+          <tbody className={'divide-y divide-gray-200'}>
             {result?.rows.map((_row, index) => (
               <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
                 <CTableRow
@@ -140,37 +141,45 @@ export namespace Table {
             ))}
           </tbody>
         </table>
-        <div>
-          <span>limit:</span>
-          <select defaultValue={limit} onChange={onChangeLimit}>
-            {limits.map((_limit, index) => (
-              <option value={_limit} key={index}>
-                {_limit}
-              </option>
-            ))}
-          </select>
+        <div className={'rc-Table_bottom'}>
+          <div className={'align-center-box'}>
+            <span style={{ marginRight: '0.5rem' }}>最大表示件数</span>
+            <select defaultValue={limit} onChange={onChangeLimit} className='rc-select'>
+              {limits.map((_limit, index) => (
+                <option value={_limit} key={index}>
+                  {_limit}
+                </option>
+              ))}
+            </select>
+            <span>全 {result?.total ?? 0} 件</span>
+            <span>全 {lastPage()} ページ</span>
+          </div>
+
+          {/*　FIXME：矢印ボタンをdisabledのときはグレー、押せる時は色つきにしたい*/}
+          <nav className='isolate inline-flex -space-x-px rounded-md shadow-sm' aria-label='Pagination'>
+            <button disabled={page == 1} onClick={() => pagingTo(1)}>
+              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
+                <path d='M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z' />
+              </svg>
+            </button>
+            <button disabled={page - 1 < 1} onClick={() => pagingTo(page - 1)}>
+              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
+                <path d='M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z' />
+              </svg>
+            </button>
+            <button disabled={true}>{page}</button>
+            <button disabled={page + 1 > lastPage()} onClick={() => pagingTo(page + 1)}>
+              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
+                <path d='M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z' />
+              </svg>
+            </button>
+            <button disabled={page == lastPage()} onClick={() => pagingTo(lastPage())}>
+              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
+                <path d='M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z' />
+              </svg>
+            </button>
+          </nav>
         </div>
-        <div>
-          <span>total:</span>
-          <span>{result?.total ?? 0}</span>
-        </div>
-        <div>
-          <span>total page:</span>
-          <span>{lastPage()}</span>
-        </div>
-        <button disabled={page == 1} onClick={() => pagingTo(1)}>
-          &lt;&lt;
-        </button>
-        <button disabled={page - 1 < 1} onClick={() => pagingTo(page - 1)}>
-          &lt;
-        </button>
-        <span>{page}</span>
-        <button disabled={page + 1 > lastPage()} onClick={() => pagingTo(page + 1)}>
-          &gt;
-        </button>
-        <button disabled={page == lastPage()} onClick={() => pagingTo(lastPage())}>
-          &gt;&gt;
-        </button>
       </div>
     )
   }
