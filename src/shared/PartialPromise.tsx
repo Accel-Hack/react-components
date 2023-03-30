@@ -12,7 +12,6 @@ function ResultOf<Req, Res>(props: IResultOf<Req, Res>) {
     props.partialPromise instanceof Function
       ? props.partialPromise(props.request)
       : Promise.resolve(props.partialPromise)
-
   promise.then((op) => props.success(op)).catch((err) => props.failure?.(err))
 }
 

@@ -2,6 +2,7 @@ import React, { ChangeEvent, memo, useEffect, useState } from 'react'
 import { CTableHeader, IHeaderDelegate } from './CTableHeader'
 import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
+import { usePrevious } from '../../shared/usePrevious'
 
 export interface InitProps {
   options?: ITableOptions
@@ -45,9 +46,9 @@ export namespace Table {
     const [result, setResult] = useState<IRowResult | undefined>(undefined)
 
     const [checked, setChecked] = useState<any[]>([])
+    const prevChecked = usePrevious<any[]>(checked)
 
     const lastPage = () => Math.max(Math.ceil((result?.total ?? 0) / limit), 1)
-
     const pagingTo = (_displayPage: number) => {
       if (_displayPage <= 0 || _displayPage > lastPage()) throw new DOMException()
       setDisplay((prev) => {
@@ -87,6 +88,20 @@ export namespace Table {
 
     useEffect(() => {
       headerDelegate.setCheckBox?.(checked.length == result?.rows.length)
+      const identifier = table.options?.selectable?.identifier
+      if (prevChecked && identifier) {
+        if (checked.length > prevChecked.length) {
+          // add item
+          const added = checked.filter((id: any) => prevChecked.includes(id))
+          const changed = result?.rows.filter((_) => added.includes(_[identifier])) ?? []
+          table.delegate.onRowChecked?.(changed, true, checked)
+        } else {
+          // remove item
+          const removed = prevChecked.filter((id: any) => checked.includes(id))
+          const changed = result?.rows.filter((_) => removed.includes(_[identifier])) ?? []
+          table.delegate.onRowChecked?.(changed, false, checked)
+        }
+      }
     }, [checked])
 
     useEffect(() => {

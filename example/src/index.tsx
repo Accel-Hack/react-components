@@ -93,6 +93,9 @@ const SampleTable = () => {
           rows: rows,
         }
       },
+      onRowChecked: (changed: any[], added: boolean, checked: any[]) => {
+        console.log('onRowChecked', changed, added, checked)
+      },
       onRowClick: (row: any) => {
         console.log('onRowClick', row)
       },
