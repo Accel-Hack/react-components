@@ -155,6 +155,7 @@ export namespace Table {
             <span>全 {lastPage()} ページ</span>
           </div>
 
+          {/* eslint-disable-next-line no-irregular-whitespace */}
           {/*　FIXME：矢印ボタンをdisabledのときはグレー、押せる時は色つきにしたい*/}
           <nav className='isolate inline-flex -space-x-px rounded-md shadow-sm' aria-label='Pagination'>
             <button disabled={page == 1} onClick={() => pagingTo(1)}>
