@@ -1,6 +1,6 @@
 {
   "name": "@accelhack-org/react-components",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -53,5 +53,8 @@
   "peerDependencies": {
     "node": ">=18",
     "react": ">=16"
+  },
+  "dependencies": {
+    "sass": "^1.60.0"
   }
 }
