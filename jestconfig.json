@@ -4,5 +4,6 @@
   },
   "testRegex": "(/test/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+  "moduleNameMapper": { "\\.(css|scss)$": "<rootDir>/node_modules/jest-css-modules-transform" },
   "testEnvironment": "jsdom"
 }
