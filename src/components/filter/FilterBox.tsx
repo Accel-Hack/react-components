@@ -91,8 +91,12 @@ export namespace Filter {
     return (
       <div>
         <div>{filterBox.filters.map((_search, index) => buildComponent(_search, index))}</div>
-        <button className={'rc-search-button rc-btn rc-btn-sm rc-btn-primary'} onClick={() => onSearch()}>検索</button>
-        <button className={'rc-reset-button rc-btn rc-btn-sm rc-btn-secondary'} onClick={() => clear()}>リセット</button>
+        <button className={'rc-search-button rc-btn rc-btn-sm rc-btn-primary'} onClick={() => onSearch()}>
+          検索
+        </button>
+        <button className={'rc-reset-button rc-btn rc-btn-sm rc-btn-secondary'} onClick={() => clear()}>
+          リセット
+        </button>
       </div>
     )
   }

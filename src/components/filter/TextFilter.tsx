@@ -36,7 +36,7 @@ namespace TextFilter {
     return (
       <div className={'rc-Filter rc-TextFilter'}>
         <label>{filter.name}</label>
-        <input type='text' ref={refTextInput} onChange={onTextChange}/>
+        <input type='text' ref={refTextInput} onChange={onTextChange} />
       </div>
     )
   }
