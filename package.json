@@ -12,6 +12,7 @@
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint \"{src,test,example/src}/**/*.{js,ts,jsx,tsx}\"",
+    "prettier:check": "prettier --check \"{src,test,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "prettier": "prettier --write \"{src,test,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "test": "jest --config jestconfig.json"
   },
