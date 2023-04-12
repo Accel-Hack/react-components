@@ -5,6 +5,7 @@ import { TextFilter } from './TextFilter'
 import { ToggleFilter } from './ToggleFilter'
 import { SelectableFilter } from './SelectableFilter'
 import { SuggestionFilter } from './SuggestionFilter'
+import { SelectBoxFilter } from './SelectBoxFilter'
 
 export interface IFilterParams {
   field: string
@@ -36,6 +37,8 @@ export namespace Filter {
         switch (f.type) {
           case FilterType.TEXT:
             return new TextFilter.Class(f as TextFilter.Props)
+          case FilterType.SELECT_BOX:
+            return new SelectBoxFilter.Class(f as SelectBoxFilter.Props)
           case FilterType.TOGGLE:
             return new ToggleFilter.Class(f as ToggleFilter.Props)
           case FilterType.SELECTABLE:
@@ -62,6 +65,8 @@ export namespace Filter {
       switch (filter.type) {
         case FilterType.TEXT:
           return <TextFilter.Component key={key} filter={filter as TextFilter.Class} />
+        case FilterType.SELECT_BOX:
+          return <SelectBoxFilter.Component key={key} filter={filter as SelectBoxFilter.Class} />
         case FilterType.TOGGLE:
           return <ToggleFilter.Component key={key} filter={filter as ToggleFilter.Class} />
         case FilterType.SELECTABLE:
@@ -89,13 +94,15 @@ export namespace Filter {
     }
 
     return (
-      <div>
-        <div>{filterBox.filters.map((_search, index) => buildComponent(_search, index))}</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem' }}>
+        <div style={{ display: 'flex', gap: '.75rem' }}>
+          {filterBox.filters.map((_search, index) => buildComponent(_search, index))}
+        </div>
         <button className={'rc-search-button rc-btn rc-btn-sm rc-btn-primary'} onClick={() => onSearch()}>
           検索
         </button>
-        <button className={'rc-reset-button rc-btn rc-btn-sm rc-btn-secondary'} onClick={() => clear()}>
-          リセット
+        <button className={'rc-reset-button rc-btn rc-btn-sm rc-btn-ghost'} onClick={() => clear()}>
+          すべてリセット
         </button>
       </div>
     )
