@@ -34,9 +34,6 @@ $border-color-gray: rgb(17 24 39 / var(--tw-text-opacity));
   padding-top: 1rem;
 
   & > table {
-    //display: flex;
-    //flex: 1 1 auto;
-    //flex-direction: column;
     height: 100%;
     min-width: 100%;
     table-layout: fixed;
@@ -47,10 +44,6 @@ $border-color-gray: rgb(17 24 39 / var(--tw-text-opacity));
     & > tbody {
       background-color: white;
       height: 100%;
-      //overflow-y: auto;
-      //display: flex;
-      //flex-direction: column;
-
     }
   }
 
@@ -133,7 +126,6 @@ $border-color-gray: rgb(17 24 39 / var(--tw-text-opacity));
 
   & > label {
     align-items: center;
-    //margin-right: 1rem;
   }
 }
 
@@ -157,7 +149,6 @@ $border-color-gray: rgb(17 24 39 / var(--tw-text-opacity));
 
     &:hover {
       background-color: $button-hover-color;
-      //opacity: 1;
     }
 
     &:disabled {

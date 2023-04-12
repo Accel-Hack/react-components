@@ -35,22 +35,11 @@ namespace TextFilter {
       },
     } as ICFilterDelegate
 
-    const keyPress = () => {
-      // FIXME: Enterキーで検索させたい
-      // console.log(e.key == 'Enter')
-    }
-
     return (
       <div className={'rc-Filter'}>
         <div className='rc-TextFilter'>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <input
-            type='text'
-            placeholder={filter.name}
-            ref={refTextInput}
-            onChange={onTextChange}
-            onKeyPress={keyPress}
-          />
+          <input type='text' placeholder={filter.name} ref={refTextInput} onChange={onTextChange} />
         </div>
       </div>
     )

@@ -17,7 +17,6 @@ export namespace Table {
     readonly columns: IColumn[]
     delegate: ITableDelegate
     _dispatch?: ITableDispatch
-
     constructor(init: InitProps) {
       this.options = init.options
       this.columns = init.columns
@@ -158,7 +157,6 @@ export namespace Table {
             <span>全 {lastPage()} ページ</span>
           </div>
 
-          {/* eslint-disable-next-line no-irregular-whitespace */}
           <nav className={'rc-TableNav'} aria-label='Pagination'>
             <button disabled={page == 1} onClick={() => pagingTo(1)}>
               <svg
