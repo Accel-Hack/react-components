@@ -39,18 +39,23 @@ const CTableRow: React.FC<_CTableRowProps> = ({ columns, row, options, checked }
     <>
       <>
         {options?.selectable?.enabled && (
-          <td>
+          <td className={'rc-Table-td_option'}>
             <input
               type='checkbox'
               ref={refCheckBox}
               onClick={(_event) => _event.stopPropagation()}
               onChange={onChangeCheckbox}
+              style={{ display: 'flex' }}
             />
           </td>
         )}
         {columns.map((_col, index) => {
           if (row[_col.field] == undefined) console.error('empty field')
-          return <td key={index}>{row[_col.field]}</td>
+          return (
+            <td key={index} className={'rc-Table-td'}>
+              {row[_col.field]}
+            </td>
+          )
         })}
       </>
     </>

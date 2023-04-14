@@ -34,7 +34,7 @@ export namespace FilterTable {
     table.filter = filterBox
 
     return (
-      <div>
+      <div className={'rc-FilterTable'}>
         <Filter.Component filterBox={filterBox} />
         <Table.Component table={table} />
       </div>

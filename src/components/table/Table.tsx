@@ -60,7 +60,7 @@ export namespace Table {
     // set dispatch
     const search = (_filters: any[]) =>
       setDisplay((prev) => {
-        return { ...prev, filters: _filters }
+        return { ...prev, filters: _filters, page: 1 }
       })
     const getRows = () => result?.rows ?? []
     const getSelectedRows = () => {
@@ -114,33 +114,35 @@ export namespace Table {
     }, [limit, page, sort, filters])
 
     return (
-      <div className={'rc-Table'} style={{ position: 'relative' }}>
-        <table className={'divide-y divide-gray-300'}>
-          <thead>
-            <tr>
-              <CTableHeader
-                columns={table.columns}
-                options={table.options}
-                sort={sort}
-                setDisplay={setDisplay}
-                checked={onAllChecked}
-                delegate={headerDelegate}
-              />
-            </tr>
-          </thead>
-          <tbody className={'divide-y divide-gray-200'}>
-            {result?.rows.map((_row, index) => (
-              <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
-                <CTableRow
+      <>
+        <div className={'rc-Table'}>
+          <table className={'divide-y divide-gray-300'}>
+            <thead>
+              <tr>
+                <CTableHeader
                   columns={table.columns}
                   options={table.options}
-                  row={_row}
-                  checked={{ list: checked, set: setChecked }}
+                  sort={sort}
+                  setDisplay={setDisplay}
+                  checked={onAllChecked}
+                  delegate={headerDelegate}
                 />
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className={'divide-y divide-gray-200'}>
+              {result?.rows.map((_row, index) => (
+                <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
+                  <CTableRow
+                    columns={table.columns}
+                    options={table.options}
+                    row={_row}
+                    checked={{ list: checked, set: setChecked }}
+                  />
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <div className={'rc-Table_bottom'}>
           <div className={'align-center-box'}>
             <span style={{ marginRight: '0.5rem' }}>最大表示件数</span>
@@ -155,33 +157,69 @@ export namespace Table {
             <span>全 {lastPage()} ページ</span>
           </div>
 
-          {/* eslint-disable-next-line no-irregular-whitespace */}
-          {/*　FIXME：矢印ボタンをdisabledのときはグレー、押せる時は色つきにしたい*/}
-          <nav className='isolate inline-flex -space-x-px rounded-md shadow-sm' aria-label='Pagination'>
+          <nav className={'rc-TableNav'} aria-label='Pagination'>
             <button disabled={page == 1} onClick={() => pagingTo(1)}>
-              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
-                <path d='M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z' />
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='rc-svg-btn'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5'
+                />
               </svg>
             </button>
             <button disabled={page - 1 < 1} onClick={() => pagingTo(page - 1)}>
-              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
-                <path d='M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z' />
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='rc-svg-btn'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
               </svg>
             </button>
-            <button disabled={true}>{page}</button>
+            <button className={'rc-TableNav_current'} disabled={true}>
+              {page}
+            </button>
             <button disabled={page + 1 > lastPage()} onClick={() => pagingTo(page + 1)}>
-              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
-                <path d='M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z' />
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='rc-svg-btn'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
               </svg>
             </button>
             <button disabled={page == lastPage()} onClick={() => pagingTo(lastPage())}>
-              <svg className='h-3 w-3' xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 512 512'>
-                <path d='M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z' />
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='rc-svg-btn'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5'
+                />
               </svg>
             </button>
           </nav>
         </div>
-      </div>
+      </>
     )
   }
 

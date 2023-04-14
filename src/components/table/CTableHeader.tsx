@@ -51,17 +51,18 @@ const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay,
   return (
     <>
       {options?.selectable?.enabled && (
-        <td>
+        <td className={'rc-Table-td_option'}>
           <input
             type='checkbox'
             ref={refCheckBox}
             onClick={(_event) => _event.stopPropagation()}
             onChange={onChangeCheckbox}
+            style={{ display: 'flex' }}
           />
         </td>
       )}
       {columns.map((_col, index) => (
-        <td key={index} onClick={() => onClickColumn(_col)}>
+        <td key={index} onClick={() => onClickColumn(_col)} className={'rc-Table-td'}>
           {_col.sortable ? (
             <>
               <div>{_col.children}</div>

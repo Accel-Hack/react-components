@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useRef } from 'react'
 import { ICFilter, ICFilterDelegate } from './CFilter'
 import { FilterType } from './Enums'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 namespace TextFilter {
   export interface Props {
@@ -34,9 +36,11 @@ namespace TextFilter {
     } as ICFilterDelegate
 
     return (
-      <div className={'rc-Filter rc-TextFilter'}>
-        <label>{filter.name}</label>
-        <input type='text' ref={refTextInput} onChange={onTextChange} />
+      <div className={'rc-Filter'}>
+        <div className='rc-TextFilter'>
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          <input type='text' placeholder={filter.name} ref={refTextInput} onChange={onTextChange} />
+        </div>
       </div>
     )
   }
