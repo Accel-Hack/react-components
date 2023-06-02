@@ -28,12 +28,14 @@ interface ITableOptions {
     enabled: boolean
     identifier: string
   }
+  sortable?: boolean
 }
 
 interface ITableDelegate {
   getRows: (limit: number, offset: number, sort: ISort[], options: any) => Promise<IRowResult>
   onRowClick?: (row: IRow) => void
   onRowChecked?: (changed: IRow[], added: boolean, checked: IRow[]) => void
+  onRowSorted?: () => void
   onDataLoaded?: () => void
 }
 

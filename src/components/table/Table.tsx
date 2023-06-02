@@ -4,6 +4,7 @@ import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
 import { usePrevious } from '../../shared/usePrevious'
 import '../../index.scss'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 export interface InitProps {
   options?: ITableOptions
@@ -87,6 +88,12 @@ export namespace Table {
       }
     }
 
+    function onDragEnd(e) {
+      console.log(e)
+    }
+
+    const rowSortable = table.options?.sortable ?? false
+
     useEffect(() => {
       headerDelegate.setCheckBox?.(checked.length == result?.rows.length)
       const identifier = table.options?.selectable?.identifier
@@ -119,6 +126,7 @@ export namespace Table {
           <table className={'divide-y divide-gray-300'}>
             <thead>
               <tr>
+                {rowSortable && <td></td>}
                 <CTableHeader
                   columns={table.columns}
                   options={table.options}
@@ -129,20 +137,74 @@ export namespace Table {
                 />
               </tr>
             </thead>
-            <tbody className={'divide-y divide-gray-200'}>
-              {result?.rows.map((_row, index) => (
-                <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
-                  <CTableRow
-                    columns={table.columns}
-                    options={table.options}
-                    row={_row}
-                    checked={{ list: checked, set: setChecked }}
-                  />
-                </tr>
-              ))}
-            </tbody>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId='droppable'>
+                {(provided, snapshot) => (
+                  <tbody className={'divide-y divide-gray-200'} {...provided.droppableProps} ref={provided.innerRef}>
+                    {result?.rows.map((_row, index) => (
+                      <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
+                        <CTableRow
+                          columns={table.columns}
+                          options={table.options}
+                          row={_row}
+                          checked={{ list: checked, set: setChecked }}
+                        />
+                      </tr>
+                    ))}
+                    {rowSortable
+                      ? result?.rows.map((_row, index) => (
+                          <Draggable key={index} draggableId={String(_row.id)} index={index}>
+                            {(provided, snapshot) => (
+                              <tr
+                                key={index}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                onClick={() => table.delegate.onRowClick?.(_row)}
+                                className={'bg-accent dragging-demo'}
+                              >
+                                <td className={'w-12'}>
+                                  <div className={'rc-Table-td_option'}>
+                                    <svg
+                                      className='svg-inline--fa fa-bars '
+                                      xmlns='http://www.w3.org/2000/svg'
+                                      viewBox='0 0 448 512'
+                                    >
+                                      <path
+                                        fill='currentColor'
+                                        d='M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z'
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                </td>
+                                <CTableRow
+                                  columns={table.columns}
+                                  options={table.options}
+                                  row={_row}
+                                  checked={{ list: checked, set: setChecked }}
+                                />
+                              </tr>
+                            )}
+                          </Draggable>
+                        ))
+                      : result?.rows.map((_row, index) => (
+                          <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
+                            <CTableRow
+                              columns={table.columns}
+                              options={table.options}
+                              row={_row}
+                              checked={{ list: checked, set: setChecked }}
+                            />
+                          </tr>
+                        ))}
+                    {provided.placeholder}
+                  </tbody>
+                )}
+              </Droppable>
+            </DragDropContext>
           </table>
         </div>
+
         <div className={'rc-Table_bottom'}>
           <div className={'align-center-box'}>
             <span style={{ marginRight: '0.5rem' }}>最大表示件数</span>
