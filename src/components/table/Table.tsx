@@ -90,7 +90,7 @@ export namespace Table {
       }
     }
 
-    function onDragEnd(e) {
+    function onDragEnd(e: any) {
       console.log(e)
     }
 
@@ -139,12 +139,12 @@ export namespace Table {
             </thead>
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId='droppable'>
-                {(provided, snapshot) => (
+                {(provided) => (
                   <tbody className={''} {...provided.droppableProps} ref={provided.innerRef}>
                     {draggable
                       ? result?.rows.map((_row, index) => (
                           <Draggable key={index} draggableId={String(_row.id)} index={index}>
-                            {(provided, snapshot) => (
+                            {(provided) => (
                               <tr
                                 key={index}
                                 ref={provided.innerRef}
