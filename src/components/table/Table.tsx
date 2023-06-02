@@ -50,6 +50,8 @@ export namespace Table {
     const [checked, setChecked] = useState<any[]>([])
     const prevChecked = usePrevious<any[]>(checked)
 
+    const draggable = table.options?.draggable ?? false
+
     const lastPage = () => Math.max(Math.ceil((result?.total ?? 0) / limit), 1)
     const pagingTo = (_displayPage: number) => {
       if (_displayPage <= 0 || _displayPage > lastPage()) throw new DOMException()
@@ -92,8 +94,6 @@ export namespace Table {
       console.log(e)
     }
 
-    const rowSortable = table.options?.sortable ?? false
-
     useEffect(() => {
       headerDelegate.setCheckBox?.(checked.length == result?.rows.length)
       const identifier = table.options?.selectable?.identifier
@@ -126,7 +126,7 @@ export namespace Table {
           <table className={'divide-y divide-gray-300'}>
             <thead>
               <tr>
-                {rowSortable && <td></td>}
+                {draggable && <td></td>}
                 <CTableHeader
                   columns={table.columns}
                   options={table.options}
@@ -140,18 +140,8 @@ export namespace Table {
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId='droppable'>
                 {(provided, snapshot) => (
-                  <tbody className={'divide-y divide-gray-200'} {...provided.droppableProps} ref={provided.innerRef}>
-                    {result?.rows.map((_row, index) => (
-                      <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
-                        <CTableRow
-                          columns={table.columns}
-                          options={table.options}
-                          row={_row}
-                          checked={{ list: checked, set: setChecked }}
-                        />
-                      </tr>
-                    ))}
-                    {rowSortable
+                  <tbody className={''} {...provided.droppableProps} ref={provided.innerRef}>
+                    {draggable
                       ? result?.rows.map((_row, index) => (
                           <Draggable key={index} draggableId={String(_row.id)} index={index}>
                             {(provided, snapshot) => (
@@ -161,7 +151,6 @@ export namespace Table {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 onClick={() => table.delegate.onRowClick?.(_row)}
-                                className={'bg-accent dragging-demo'}
                               >
                                 <td className={'w-12'}>
                                   <div className={'rc-Table-td_option'}>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import { ARFilter, ARFilterTable, ARTable, FilterType } from './src/index.ts'
-// import { ARFilter, ARFilterTable, ARTable, FilterType } from '@accelhack-org/react-components'
+import { ARFilter, ARFilterTable, ARTable, FilterType } from '@accelhack-org/react-components'
 
 const SampleFilter = () => {
   const filter = new ARFilter.Class({

@@ -44,6 +44,14 @@ $border-color-gray: rgb(17 24 39 / var(--tw-text-opacity));
     & > tbody {
       background-color: white;
       height: 100%;
+
+      & > tr {
+        height: 2.5rem;
+        line-height: 2.5rem;
+        border-top: #9ca3af calc(1px / 2) solid;
+        border-bottom: #9ca3af calc(1px / 2) solid;
+        background-color: white;
+      }
     }
   }
 
