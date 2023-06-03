@@ -28,14 +28,13 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
-        run: yarn && yarn install
+        run: cd ./package && yarn && yarn install
 
       - name: Build
-        run: yarn build
+        run: cd ./package && yarn build
 
       - name: Publish
-        run: yarn publish --access public
-
+        run: cd ./package && yarn publish --access public
         env:
           # We need this to our NPM account
           NODE_AUTH_TOKEN: ${{ secrets.AH_NPM_TOKEN }}
