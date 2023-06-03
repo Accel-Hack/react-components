@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "update:package": "cd ../package && yarn build",
-    "dev": "webpack serve --open"
+    "dev": "webpack serve --open",
+    "build:page": "webpack"
   },
   "dependencies": {
     "@types/react": "^18.2.8",
