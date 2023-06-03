@@ -29,7 +29,7 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.md"
+    "../README.md"
   ],
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
