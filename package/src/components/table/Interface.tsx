@@ -35,7 +35,7 @@ interface ITableDelegate {
   getRows: (limit: number, offset: number, sort: ISort[], options: any) => Promise<IRowResult>
   onRowClick?: (row: IRow) => void
   onRowChecked?: (changed: IRow[], added: boolean, checked: IRow[]) => void
-  onRowSorted?: (e: any) => void
+  onRowDragged?: () => void
   onDataLoaded?: () => void
 }
 

@@ -153,7 +153,7 @@ const SampleFilterTable = () => {
         ],
       },
     ],
-    options: { selectable: { enabled: true, identifier: 'id' },draggable:true },
+    options: { selectable: { enabled: true, identifier: 'id' }, draggable:true },
     columns: [
       { field: 'id', children: 'ID', sortable: true },
       { field: 'name', children: '名前', sortable: true },
@@ -192,6 +192,9 @@ const SampleFilterTable = () => {
       },
       onRowClick: (row: any) => {
         console.log('onRowClick', row)
+      },
+      onRowDragged:() => {
+        console.log('onRowDragged')
       },
       onDataLoaded: () => {
         console.log('onDataLoaded')

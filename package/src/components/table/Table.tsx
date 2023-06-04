@@ -4,7 +4,7 @@ import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
 import { usePrevious } from '../../shared/usePrevious'
 import '../../index.scss'
-import { DragDropContext, Draggable, Droppable, DroppableProvided } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd'
 
 export interface InitProps {
   options?: ITableOptions
@@ -90,8 +90,15 @@ export namespace Table {
       }
     }
 
-    function onDragEnd(e: any) {
-      console.log('onDragEnd:', e)
+    function onDragEnd(e: DropResult) {
+      if (e.destination == null || e.destination.index == e.source.index) return
+      // 順序入れ替え処理
+      const rows = result?.rows as IRow[]
+      const rowsCopied = [...rows]
+      rowsCopied.splice(e.source.index, 1)
+      rowsCopied.splice(e.destination.index, 0, rows[e.source.index])
+      setResult({ total: rows.length, rows: rowsCopied })
+      table.delegate.onRowDragged?.()
     }
 
     useEffect(() => {
