@@ -153,7 +153,7 @@ const SampleFilterTable = () => {
         ],
       },
     ],
-    options: { selectable: { enabled: true, identifier: 'id' } },
+    options: { selectable: { enabled: true, identifier: 'id' },draggable:true },
     columns: [
       { field: 'id', children: 'ID', sortable: true },
       { field: 'name', children: '名前', sortable: true },
@@ -244,7 +244,8 @@ const App = () => {
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <React.StrictMode>
+  // react-beautiful-dndを使うためにコメントアウト
+  // <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

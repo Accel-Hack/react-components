@@ -9,7 +9,7 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run prettier && npm run lint",
     "build": "yarn build:esm && yarn build:cjs",
-    "build:esm": "tsc -w && copyfiles -u 1 src/**/*.{css,scss} dist/esm",
+    "build:esm": "copyfiles -u 1 src/**/*.{css,scss} dist/esm && tsc -w",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs && copyfiles -u 1 src/**/*.{css,scss} dist/cjs",
     "lint": "eslint \"{src,test,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "prettier:check": "prettier --check \"{src,test,example/src}/**/*.{js,ts,jsx,tsx}\"",
@@ -35,6 +35,7 @@
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.4.0",
     "@types/react": "^18.0.28",
+    "@types/react-beautiful-dnd": "^13.1.4",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "copyfiles": "^2.4.1",
@@ -58,9 +59,10 @@
     "react": ">=16"
   },
   "dependencies": {
-    "sass": "^1.60.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@fortawesome/react-fontawesome": "^0.2.0"
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "sass": "^1.60.0"
   }
 }
