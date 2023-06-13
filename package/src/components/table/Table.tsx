@@ -90,6 +90,16 @@ export namespace Table {
       }
     }
 
+    function onDragStart() {
+      const headerCellList = document.querySelectorAll('thead > tr > td')
+      const rowList = document.querySelectorAll('tbody > tr')
+      rowList.forEach((row) => {
+        row.querySelectorAll('td').forEach((col, index) => {
+          col.style.width = String(headerCellList[index].clientWidth) + 'px'
+        })
+      })
+    }
+
     function onDragEnd(e: DropResult) {
       if (e.destination == null || e.destination.index == e.source.index) return
       // 順序入れ替え処理
@@ -144,7 +154,7 @@ export namespace Table {
                 />
               </tr>
             </thead>
-            <DragDropContext onDragEnd={onDragEnd}>
+            <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
               <Droppable droppableId='droppable'>
                 {(provided: DroppableProvided) => (
                   <tbody className={''} {...provided.droppableProps} ref={provided.innerRef}>
@@ -158,8 +168,9 @@ export namespace Table {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 onClick={() => table.delegate.onRowClick?.(_row)}
+                                className={table.delegate.onRowClick ? 'rc-clickable-row' : ''}
                               >
-                                <td className={'w-12'}>
+                                <td className={'rc-draggable-col rc-table-col w-12'}>
                                   <div className={'rc-Table-td_option'}>
                                     <svg
                                       className='svg-inline--fa fa-bars '
