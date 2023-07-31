@@ -1,6 +1,8 @@
 $color-gray: rgb(156 163 175 / var(--tw-text-opacity));
 $button-hover-color: rgb(200, 200, 200);
 $border-color-gray: rgb(17 24 39 / var(--tw-text-opacity));
+$active: hsla(158, 64%, 50%, 0.35);
+$active-hover: hsla(158, 64%, 50%, 0.5);
 
 @mixin base-border {
   --tw-ring-opacity: 1;
@@ -52,12 +54,20 @@ $border-color-gray: rgb(17 24 39 / var(--tw-text-opacity));
         border-bottom: #9ca3af calc(1px / 2) solid;
         background-color: white;
 
-        &.rc-clickable-row:hover {
+        &.rc-clickable-row:not(.rc-active-row):hover {
           background-color: hsl(220deg 14% 95%);
           cursor: pointer;
 
           & > td.rc-draggable-col {
             cursor: grab;
+          }
+        }
+
+        &.rc-active-row {
+          background-color: $active;
+
+          &:hover {
+            background-color: $active-hover;
           }
         }
       }

@@ -18,6 +18,7 @@ export namespace Table {
     readonly columns: IColumn[]
     delegate: ITableDelegate
     _dispatch?: ITableDispatch
+
     constructor(init: InitProps) {
       this.options = init.options
       this.columns = init.columns
@@ -73,6 +74,20 @@ export namespace Table {
     }
     table._dispatch = { search, getRows, getSelectedRows }
 
+    const resetActiveRow = () => {
+      document.getElementsByClassName('rc-active-row')[0]?.classList.remove('rc-active-row')
+    }
+    const onRowClick = (_rowInfo: any, dom: React.MouseEvent<Element, MouseEvent>) => {
+      if (!table.delegate.onRowClick) {
+        return
+      }
+      table.delegate.onRowClick(_rowInfo)
+
+      resetActiveRow()
+      const el = dom.target as Element
+      el.closest('tr')?.classList.add('rc-active-row')
+    }
+
     const onChangeLimit = (_event: ChangeEvent<HTMLSelectElement>) =>
       setDisplay((prev) => {
         return { ...prev, limit: Number(_event.target.value), page: 1 }
@@ -91,6 +106,7 @@ export namespace Table {
     }
 
     function onDragStart() {
+      resetActiveRow()
       const headerCellList = document.querySelectorAll('thead > tr > td')
       const rowList = document.querySelectorAll('tbody > tr')
       rowList.forEach((row) => {
@@ -154,6 +170,18 @@ export namespace Table {
                 />
               </tr>
             </thead>
+            <tbody className={'divide-y divide-gray-200'}>
+              {result?.rows.map((_row, index) => (
+                <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
+                  <CTableRow
+                    columns={table.columns}
+                    options={table.options}
+                    row={_row}
+                    checked={{ list: checked, set: setChecked }}
+                  />
+                </tr>
+              ))}
+            </tbody>
             <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
               <Droppable droppableId='droppable'>
                 {(provided: DroppableProvided) => (
@@ -167,7 +195,7 @@ export namespace Table {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                onClick={() => table.delegate.onRowClick?.(_row)}
+                                onClick={(e: React.MouseEvent<Element, MouseEvent>) => onRowClick(_row, e)}
                                 className={table.delegate.onRowClick ? 'rc-clickable-row' : ''}
                               >
                                 <td className={'rc-draggable-col rc-table-col w-12'}>
@@ -195,7 +223,11 @@ export namespace Table {
                           </Draggable>
                         ))
                       : result?.rows.map((_row, index) => (
-                          <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
+                          <tr
+                            key={index}
+                            onClick={(e: React.MouseEvent<Element, MouseEvent>) => onRowClick(_row, e)}
+                            className={table.delegate.onRowClick ? 'rc-clickable-row' : ''}
+                          >
                             <CTableRow
                               columns={table.columns}
                               options={table.options}
