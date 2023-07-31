@@ -1,5 +1,5 @@
 import React from 'react'
-import { SortDirection } from './Enums'
+import { SelectableMode, SortDirection } from './Enums'
 
 interface IRow {
   [name: string]: React.ReactNode
@@ -25,6 +25,7 @@ interface ITable {
 interface ITableOptions {
   limit?: number[]
   selectable?: {
+    mode: SelectableMode
     enabled: boolean
     identifier: string
   }

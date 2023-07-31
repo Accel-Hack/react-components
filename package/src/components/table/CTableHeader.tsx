@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react'
-import { SortDirection } from './Enums'
+import { SelectableMode, SortDirection } from './Enums'
 import { IColumn, IDisplay, ISort, ITableOptions } from './Interface'
 
 interface _ITableHeaderProps {
@@ -50,7 +50,7 @@ const CTableHeader: React.FC<_ITableHeaderProps> = ({ columns, sort, setDisplay,
 
   return (
     <>
-      {options?.selectable?.enabled && (
+      {options?.selectable?.mode == SelectableMode.MULTIPLE && (
         <td className={'rc-Table-td_option'}>
           <input
             type='checkbox'

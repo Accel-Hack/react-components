@@ -5,6 +5,7 @@ import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDisp
 import { usePrevious } from '../../shared/usePrevious'
 import '../../index.scss'
 import { DragDropContext, Draggable, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd'
+import { SelectableMode } from './Enums'
 
 export interface InitProps {
   options?: ITableOptions
@@ -78,14 +79,18 @@ export namespace Table {
       document.getElementsByClassName('rc-active-row')[0]?.classList.remove('rc-active-row')
     }
     const onRowClick = (_rowInfo: any, dom: React.MouseEvent<Element, MouseEvent>) => {
-      if (!table.delegate.onRowClick) {
-        return
+      if (table.delegate.onRowClick) {
+        table.delegate.onRowClick(_rowInfo)
       }
-      table.delegate.onRowClick(_rowInfo)
 
-      resetActiveRow()
-      const el = dom.target as Element
-      el.closest('tr')?.classList.add('rc-active-row')
+      const mode = table.options?.selectable?.mode
+      const identifier = table.options?.selectable?.identifier
+      if (mode == SelectableMode.SINGLE && identifier) {
+        resetActiveRow()
+        const el = dom.target as Element
+        el.closest('tr')?.classList.add('rc-active-row')
+        setChecked([_rowInfo[identifier]])
+      }
     }
 
     const onChangeLimit = (_event: ChangeEvent<HTMLSelectElement>) =>
