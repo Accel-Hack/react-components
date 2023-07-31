@@ -26,7 +26,6 @@ interface ITableOptions {
   limit?: number[]
   selectable?: {
     mode: SelectableMode
-    enabled: boolean
     identifier: string
   }
   draggable?: boolean

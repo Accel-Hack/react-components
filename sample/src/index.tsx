@@ -69,7 +69,6 @@ const SampleTable = () => {
     options: {
       selectable: {
         mode: SelectableMode.MULTIPLE,
-        enabled: true,
         identifier: "id",
       },
     },
@@ -166,7 +165,6 @@ const SampleFilterTable = () => {
     options: {
       selectable: {
         mode: SelectableMode.SINGLE,
-        enabled: true,
         identifier: "id",
       },
       draggable: true,
