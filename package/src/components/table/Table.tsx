@@ -170,18 +170,6 @@ export namespace Table {
                 />
               </tr>
             </thead>
-            <tbody className={'divide-y divide-gray-200'}>
-              {result?.rows.map((_row, index) => (
-                <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
-                  <CTableRow
-                    columns={table.columns}
-                    options={table.options}
-                    row={_row}
-                    checked={{ list: checked, set: setChecked }}
-                  />
-                </tr>
-              ))}
-            </tbody>
             <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
               <Droppable droppableId='droppable'>
                 {(provided: DroppableProvided) => (
