@@ -189,7 +189,11 @@ export namespace Table {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 onClick={(e: React.MouseEvent<Element, MouseEvent>) => onRowClick(_row, e)}
-                                className={table.delegate.onRowClick ? 'rc-clickable-row' : ''}
+                                className={
+                                  table.delegate.onRowClick || table.options?.selectable?.mode == SelectableMode.SINGLE
+                                    ? 'rc-clickable-row'
+                                    : ''
+                                }
                               >
                                 <td className={'rc-draggable-col rc-table-col w-12'}>
                                   <div className={'rc-Table-td_option'}>
@@ -219,7 +223,11 @@ export namespace Table {
                           <tr
                             key={index}
                             onClick={(e: React.MouseEvent<Element, MouseEvent>) => onRowClick(_row, e)}
-                            className={table.delegate.onRowClick ? 'rc-clickable-row' : ''}
+                            className={
+                              table.delegate.onRowClick || table.options?.selectable?.mode == SelectableMode.SINGLE
+                                ? 'rc-clickable-row'
+                                : ''
+                            }
                           >
                             <CTableRow
                               columns={table.columns}
