@@ -1,5 +1,5 @@
 import React from 'react'
-import { SortDirection } from './Enums'
+import { SelectableMode, SortDirection } from './Enums'
 
 interface IRow {
   [name: string]: React.ReactNode
@@ -25,15 +25,17 @@ interface ITable {
 interface ITableOptions {
   limit?: number[]
   selectable?: {
-    enabled: boolean
+    mode: SelectableMode
     identifier: string
   }
+  draggable?: boolean
 }
 
 interface ITableDelegate {
   getRows: (limit: number, offset: number, sort: ISort[], options: any) => Promise<IRowResult>
   onRowClick?: (row: IRow) => void
   onRowChecked?: (changed: IRow[], added: boolean, checked: IRow[]) => void
+  onRowDragged?: () => void
   onDataLoaded?: () => void
 }
 

@@ -38,8 +38,10 @@ namespace TextFilter {
     return (
       <div className={'rc-Filter'}>
         <div className='rc-TextFilter'>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
           <input type='text' placeholder={filter.name} ref={refTextInput} onChange={onTextChange} />
+          <div className={'rc-search-icon'}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </div>
         </div>
       </div>
     )

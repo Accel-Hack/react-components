@@ -4,6 +4,8 @@ import { CTableRow } from './CTableRow'
 import { IColumn, IDisplay, IRow, IRowResult, ITable, ITableDelegate, ITableDispatch, ITableOptions } from './Interface'
 import { usePrevious } from '../../shared/usePrevious'
 import '../../index.scss'
+import { DragDropContext, Draggable, Droppable, DroppableProvided, DropResult } from 'react-beautiful-dnd'
+import { SelectableMode } from './Enums'
 
 export interface InitProps {
   options?: ITableOptions
@@ -17,6 +19,7 @@ export namespace Table {
     readonly columns: IColumn[]
     delegate: ITableDelegate
     _dispatch?: ITableDispatch
+
     constructor(init: InitProps) {
       this.options = init.options
       this.columns = init.columns
@@ -49,6 +52,8 @@ export namespace Table {
     const [checked, setChecked] = useState<any[]>([])
     const prevChecked = usePrevious<any[]>(checked)
 
+    const draggable = table.options?.draggable ?? false
+
     const lastPage = () => Math.max(Math.ceil((result?.total ?? 0) / limit), 1)
     const pagingTo = (_displayPage: number) => {
       if (_displayPage <= 0 || _displayPage > lastPage()) throw new DOMException()
@@ -70,6 +75,24 @@ export namespace Table {
     }
     table._dispatch = { search, getRows, getSelectedRows }
 
+    const resetActiveRow = () => {
+      document.getElementsByClassName('rc-active-row')[0]?.classList.remove('rc-active-row')
+    }
+    const onRowClick = (_rowInfo: any, dom: React.MouseEvent<Element, MouseEvent>) => {
+      if (table.delegate.onRowClick) {
+        table.delegate.onRowClick(_rowInfo)
+      }
+
+      const mode = table.options?.selectable?.mode
+      const identifier = table.options?.selectable?.identifier
+      if (mode == SelectableMode.SINGLE && identifier) {
+        resetActiveRow()
+        const el = dom.target as Element
+        el.closest('tr')?.classList.add('rc-active-row')
+        setChecked([_rowInfo[identifier]])
+      }
+    }
+
     const onChangeLimit = (_event: ChangeEvent<HTMLSelectElement>) =>
       setDisplay((prev) => {
         return { ...prev, limit: Number(_event.target.value), page: 1 }
@@ -85,6 +108,28 @@ export namespace Table {
       } else {
         setChecked([])
       }
+    }
+
+    function onDragStart() {
+      resetActiveRow()
+      const headerCellList = document.querySelectorAll('thead > tr > td')
+      const rowList = document.querySelectorAll('tbody > tr')
+      rowList.forEach((row) => {
+        row.querySelectorAll('td').forEach((col, index) => {
+          col.style.width = String(headerCellList[index].clientWidth) + 'px'
+        })
+      })
+    }
+
+    function onDragEnd(e: DropResult) {
+      if (e.destination == null || e.destination.index == e.source.index) return
+      // 順序入れ替え処理
+      const rows = result?.rows as IRow[]
+      const rowsCopied = [...rows]
+      rowsCopied.splice(e.source.index, 1)
+      rowsCopied.splice(e.destination.index, 0, rows[e.source.index])
+      setResult({ total: rows.length, rows: rowsCopied })
+      table.delegate.onRowDragged?.()
     }
 
     useEffect(() => {
@@ -119,6 +164,7 @@ export namespace Table {
           <table className={'divide-y divide-gray-300'}>
             <thead>
               <tr>
+                {draggable && <td></td>}
                 <CTableHeader
                   columns={table.columns}
                   options={table.options}
@@ -129,20 +175,76 @@ export namespace Table {
                 />
               </tr>
             </thead>
-            <tbody className={'divide-y divide-gray-200'}>
-              {result?.rows.map((_row, index) => (
-                <tr key={index} onClick={() => table.delegate.onRowClick?.(_row)}>
-                  <CTableRow
-                    columns={table.columns}
-                    options={table.options}
-                    row={_row}
-                    checked={{ list: checked, set: setChecked }}
-                  />
-                </tr>
-              ))}
-            </tbody>
+            <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+              <Droppable droppableId='droppable'>
+                {(provided: DroppableProvided) => (
+                  <tbody className={''} {...provided.droppableProps} ref={provided.innerRef}>
+                    {draggable
+                      ? result?.rows.map((_row, index) => (
+                          <Draggable key={index} draggableId={String(index)} index={index}>
+                            {(provided) => (
+                              <tr
+                                key={index}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                onClick={(e: React.MouseEvent<Element, MouseEvent>) => onRowClick(_row, e)}
+                                className={
+                                  table.delegate.onRowClick || table.options?.selectable?.mode == SelectableMode.SINGLE
+                                    ? 'rc-clickable-row'
+                                    : ''
+                                }
+                              >
+                                <td className={'rc-draggable-col rc-table-col w-12'}>
+                                  <div className={'rc-Table-td_option'}>
+                                    <svg
+                                      className='svg-inline--fa fa-bars '
+                                      xmlns='http://www.w3.org/2000/svg'
+                                      viewBox='0 0 448 512'
+                                    >
+                                      <path
+                                        fill='currentColor'
+                                        d='M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z'
+                                      ></path>
+                                    </svg>
+                                  </div>
+                                </td>
+                                <CTableRow
+                                  columns={table.columns}
+                                  options={table.options}
+                                  row={_row}
+                                  checked={{ list: checked, set: setChecked }}
+                                />
+                              </tr>
+                            )}
+                          </Draggable>
+                        ))
+                      : result?.rows.map((_row, index) => (
+                          <tr
+                            key={index}
+                            onClick={(e: React.MouseEvent<Element, MouseEvent>) => onRowClick(_row, e)}
+                            className={
+                              table.delegate.onRowClick || table.options?.selectable?.mode == SelectableMode.SINGLE
+                                ? 'rc-clickable-row'
+                                : ''
+                            }
+                          >
+                            <CTableRow
+                              columns={table.columns}
+                              options={table.options}
+                              row={_row}
+                              checked={{ list: checked, set: setChecked }}
+                            />
+                          </tr>
+                        ))}
+                    {provided.placeholder}
+                  </tbody>
+                )}
+              </Droppable>
+            </DragDropContext>
           </table>
         </div>
+
         <div className={'rc-Table_bottom'}>
           <div className={'align-center-box'}>
             <span style={{ marginRight: '0.5rem' }}>最大表示件数</span>

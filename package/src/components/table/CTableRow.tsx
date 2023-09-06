@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef } from 'react'
 import { IColumn, IRow, ITableOptions } from './Interface'
+import { SelectableMode } from './Enums'
 
 interface _CTableRowProps {
   readonly options?: ITableOptions
@@ -38,15 +39,17 @@ const CTableRow: React.FC<_CTableRowProps> = ({ columns, row, options, checked }
   return (
     <>
       <>
-        {options?.selectable?.enabled && (
-          <td className={'rc-Table-td_option'}>
-            <input
-              type='checkbox'
-              ref={refCheckBox}
-              onClick={(_event) => _event.stopPropagation()}
-              onChange={onChangeCheckbox}
-              style={{ display: 'flex' }}
-            />
+        {options?.selectable?.mode == SelectableMode.MULTIPLE && (
+          <td className={'rc-Table-td'}>
+            <div className={'rc-Table-td_option'}>
+              <input
+                type='checkbox'
+                ref={refCheckBox}
+                onClick={(_event) => _event.stopPropagation()}
+                onChange={onChangeCheckbox}
+                style={{ cursor: 'pointer' }}
+              />
+            </div>
           </td>
         )}
         {columns.map((_col, index) => {
