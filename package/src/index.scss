@@ -138,16 +138,16 @@ $active-hover: hsla(158, 64%, 50%, 0.5);
   position: relative;
   display: flex;
   height: 2rem;
-  border-width: 1px;
   --tw-border-opacity: 0;
   --tw-bg-opacity: 1;
-  border-radius: 0.5rem;
 
   & > svg {
     margin: auto 0 auto 0.5rem;
   }
 
   & > input {
+    border-width: 1px;
+    border-radius: 0.5rem;
     background-color: transparent;
     padding: 0.25rem 1rem 0.25rem 2.5rem;
   }
@@ -159,7 +159,7 @@ $active-hover: hsla(158, 64%, 50%, 0.5);
 
 .rc-search-icon {
   position: absolute;
-  left: 1rem;
+  left: 0.75rem;
   height: 100%;
   display: flex;
   align-items: center;
