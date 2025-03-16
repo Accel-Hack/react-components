@@ -5,6 +5,7 @@ import 'jest-canvas-mock'
 
 import { ARFilterTable, ARTable } from '../src'
 import { act } from 'react-dom/test-utils'
+import { SelectableMode } from '../src/components/table/Enums'
 
 describe('Table render', () => {
   it('with no options', async () => {
@@ -17,7 +18,7 @@ describe('Table render', () => {
   it('with no options', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getRows = async (_1: any, _2: any, _3: any, _4: any) => ({ total: 1, rows: [] })
-    const options = { selectable: { enabled: true, identifier: 'id' } }
+    const options = { selectable: { mode: SelectableMode.MULTIPLE, enabled: true, identifier: 'id' } }
     const table = new ARTable.Class({ options, columns: [], delegate: { getRows } })
     await act(async () => render(<ARTable.Component table={table} />))
   })
@@ -34,7 +35,7 @@ describe('FilterTable render', () => {
   it('with sort options', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getRows = async (_1: any, _2: any, _3: any, _4: any) => ({ total: 1, rows: [] })
-    const options = { selectable: { enabled: true, identifier: 'id' } }
+    const options = { selectable: { mode: SelectableMode.MULTIPLE, enabled: true, identifier: 'id' } }
     const table = new ARFilterTable.Class({ filters: [], options, columns: [], delegate: { getRows } })
     await act(async () => render(<ARFilterTable.Component table={table} />))
   })

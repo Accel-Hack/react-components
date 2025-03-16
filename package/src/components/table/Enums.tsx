@@ -3,4 +3,9 @@ enum SortDirection {
   DESC = 'DESC',
 }
 
-export { SortDirection }
+enum SelectableMode {
+  SINGLE = 'SINGLE',
+  MULTIPLE = 'MULTIPLE',
+}
+
+export { SortDirection, SelectableMode }
